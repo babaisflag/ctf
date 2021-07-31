@@ -191,7 +191,7 @@ So our input is encrypted and decrypted via AES-CBC. I don't know much about enc
 The title and the description a talks about flip flops. Might be something related to bit flipping. Googling "aes cbc bit flipping, the [first result](https://resources.infosecinstitute.com/topic/cbc-byte-flipping-attack-101-approach/) talks about byte flipping attack for aes-cbc. Basically, the decryption process is:
 1. Put the current block of ciphertext through decryption with the provided key;
 2. then xor the result with the previous block of ciphertext, to recover the plaintext.
-![Image of AES-CBC byte flip](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021/_Images/AESCBCByteFlip.jpg)
+![Image of AES-CBC byte flip](/_Images/AESCBCByteFlip.jpg)
 
 So, we need 2 blocks: the "previous block" that will be used to flip a bit (of course, this block will not be recovered as the ciphertext changed), and the "next block" that contains a string that's 1 bit off from the string 'gimmeflag'. We can use the string `AAAAAAAAAAAAAAAAAAAAAAAgimmeflaf`. Since `f` is `0x66` and `g` is `0x67`, we can just flip the bottom-most bit of the first block of the ciphertext to recover `AAAAAAAAAAAAAAAAAAAAAAAgimmeflag`.
 
@@ -388,14 +388,15 @@ Roo's cousin was on vacation, but he forgot to tell us where he went! But he pos
 
 **Solution**
 
-![Vacation Image](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021/_Attachments/image.jpg)
+![Vacation Image](/_Attachments/image.jpg)
 
 Zooming in, we see a few things:
 1. On the left, in the flag with 'National Treasure', there is a logo that has the year 1965 and 'City of South Lake Tahoe'.
 2. On the right, there are a few shops, including a Rock Shop, Tahoe Hemp Company, and Sugar Pine Bakery.
 
 Searching 'city of south lake tahoe sugar pine bakery' in google maps, we do indeed get a location with the rock shop next to it. Right-clicking on the road near it, we get the coordinates: 38.947, -119.96.
-![Google Maps Image](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021/_Images/vacation.PNG)
+
+![Google Maps Image](/_Images/vacation.PNG)
 
 **Flag**
 ```
