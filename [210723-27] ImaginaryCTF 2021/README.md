@@ -4,13 +4,13 @@ ImaginaryCTF 2021, from July 23 4PM - July 27 4PM (UTC).
 
 ## Solves
 
-(arranged by points)
+(Writeups to challenges are linked here; arranged by points)
 
 Challenge | Category | Points
 --------- | -------- | ------
-Sanity Check | Misc | 15
-Discord	| Misc | 15
-Chicken Caesar Salad | Crypto | 50
+[Sanity Check](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021#sanity-check-misc-15-pts) | Misc | 15
+[Discord](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021#discord-misc-15-pts)	| Misc | 15
+[Chicken Caesar Salad](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021#chicken-caesar-salad-crypto-50-pts) | Crypto | 50
 Hidden | Forensics | 50
 Roos World | Web | 50
 stackoverflow | Pwn | 50
@@ -32,7 +32,7 @@ It's Not Pwn, I Swear! | Reversing | 250
 
 ## Writeups
 
-## Sanity Check (Misc, 15pts)
+## Sanity Check (Misc, 15 pts)
 
 **Description**
 
@@ -89,7 +89,7 @@ Go to any caesar cipher decoder (dcode.fr, for instance) and try all 25 combinat
 ictf{wHen_dID_cAEseR_cIphERs_gEt_sO_hARd}
 ```
 
-## Hidden | Forensics | 50
+## Hidden (Forensics, 50 pts)
 
 **Description**
 
@@ -116,7 +116,7 @@ ictf{wut_how_do_you_see_this}
 
 ## Fake Canary | Pwn | 100
 
-## Flip Flops | Crypto | 100
+## Flip Flops (Crypto, 100 pts)
 
 **Description**
 
@@ -124,12 +124,12 @@ Yesterday, Roo bought some new flip flops. Let's see how good at flopping you ar
 
 **Attachments**
 
-`flop.py`
+`flop.py` ([src](_Attachments/flop.py))
 
 **Solution**
 
 `flop.py`:
-```
+``` python
 #!/usr/local/bin/python
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
@@ -191,6 +191,7 @@ So our input is encrypted and decrypted via AES-CBC. I don't know much about enc
 The title and the description a talks about flip flops. Might be something related to bit flipping. Googling "aes cbc bit flipping, the [first result](https://resources.infosecinstitute.com/topic/cbc-byte-flipping-attack-101-approach/) talks about byte flipping attack for aes-cbc. Basically, the decryption process is:
 1. Put the current block of ciphertext through decryption with the provided key;
 2. then xor the result with the previous block of ciphertext, to recover the plaintext.
+
 ![Image of AES-CBC byte flip](_Images/AESCBCByteFlip.jpg)
 
 So, we need 2 blocks: the "previous block" that will be used to flip a bit (of course, this block will not be recovered as the ciphertext changed), and the "next block" that contains a string that's 1 bit off from the string 'gimmeflag'. We can use the string `AAAAAAAAAAAAAAAAAAAAAAAgimmeflaf`. Since `f` is `0x66` and `g` is `0x67`, we can just flip the bottom-most bit of the first block of the ciphertext to recover `AAAAAAAAAAAAAAAAAAAAAAAgimmeflag`.
@@ -246,7 +247,7 @@ It seems that the encryption appends the IV at the end of the ciphertext; the ci
 ictf{fl1p_fl0p_b1ts_fl1pped_b6731f96}
 ```
 
-## Formatting | Misc | 100
+## Formatting (Misc, 100 pts)
 
 **Description**
 
@@ -254,7 +255,7 @@ Wait, I thought format strings were only in C???
 
 **Attachments**
 
-`stonks.py`
+`stonks.py` ([src](_Attachments/stonks.py))
 
 **Solution**
 
@@ -320,7 +321,7 @@ ictf{c4r3rul_w1th_f0rmat_str1ngs_4a2bd219}
 ictf{c4r3rul_w1th_f0rmat_str1ngs_4a2bd219}
 ```
 
-## Spelling Test | Misc | 100
+## Spelling Test (Misc, 100 pts)
 
 **Description**
 
@@ -330,7 +331,7 @@ NOTE: the words are spelled in American English
 
 **Attachments**
 
-`words.txt`
+`words.txt` ([file](_Attachments/words.txt))
 
 **Solution**
 
@@ -376,7 +377,7 @@ ictf{youpassedthespellingtest}
 ```
 
 ## Stings | Rev | 100
-## Vacation | Forensics | 100
+## Vacation (Forensics, 100 pts)
 
 **Description**
 
@@ -384,7 +385,7 @@ Roo's cousin was on vacation, but he forgot to tell us where he went! But he pos
 
 **Attachments**
 
-`image.jpg`
+`image.jpg` ([image](_Attachments/image.jpg))
 
 **Solution**
 
@@ -394,7 +395,7 @@ Zooming in, we see a few things:
 1. On the left, in the flag with 'National Treasure', there is a logo that has the year 1965 and 'City of South Lake Tahoe'.
 2. On the right, there are a few shops, including a Rock Shop, Tahoe Hemp Company, and Sugar Pine Bakery.
 
-Searching 'city of south lake tahoe sugar pine bakery' in google maps, we do indeed get a location with the rock shop next to it. Right-clicking on the road near it, we get the coordinates: 38.947, -119.96.
+Searching 'city of south lake tahoe sugar pine bakery' in google maps, we do indeed get a location with the rock shop next to it. Right-clicking on the road near it, we get the coordinates: 38.947, -119.961.
 
 ![Google Maps Image](_Images/vacation.PNG)
 
