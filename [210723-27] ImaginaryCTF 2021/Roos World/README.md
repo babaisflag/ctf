@@ -26,6 +26,8 @@ Well, I don't really know what that is, but running that on jsfiddle gives us th
 
 ![flage](images/roosworld_flage.PNG)
 
+![roosworld_consoleflage](https://user-images.githubusercontent.com/11196638/127982757-8aad1ae6-9cbd-41ae-a4fd-16bb56cf0f3f.PNG)
+
 ## Flag
 ```
 ictf{1nsp3ct0r_r00_g0es_th0nk}
