@@ -2,24 +2,24 @@
 
 ImaginaryCTF 2021, from July 23 4PM - July 27 4PM (UTC).
 
-## Solves
+## Overview
 
-(Writeups to challenges are linked here; arranged by points)
+(writeups to challenges are linked here, arranged by points)
 
 Challenge | Category | Points
 --------- | -------- | ------
-[Sanity Check](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021#sanity-check-misc-15-pts) | Misc | 15
-[Discord](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021#discord-misc-15-pts)	| Misc | 15
-[Chicken Caesar Salad](https://github.com/babaiserror/ctf/tree/main/%5B210723-27%5D%20ImaginaryCTF%202021#chicken-caesar-salad-crypto-50-pts) | Crypto | 50
-Hidden | Forensics | 50
-Roos World | Web | 50
-stackoverflow | Pwn | 50
+[Discord](#discord-misc-15-pts)	| Misc | 15
+[Sanity Check](#sanity-check-misc-15-pts) | Misc | 15
+[Chicken Caesar Salad](#chicken-caesar-salad-crypto-50-pts) | Crypto | 50
+[Hidden](#hidden-forensics-50-pts) | Forensics | 50
+[Roos World](Roos%20World/README.md) | Web | 50
+Stackoverflow | Pwn | 50
 Fake Canary | Pwn | 100
-Flip Flops | Crypto | 100
-Formatting | Misc | 100
-Spelling Test | Misc | 100
+[Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100
+[Formatting](#formatting-misc-100-pts) | Misc | 100
+[Spelling Test](#spelling-test-misc-100-pts) | Misc | 100
 Stings | Rev | 100
-Vacation | Forensics | 100
+[Vacation](#vacation-forensics-100-pts) | Forensics | 100
 Lines | Crypto | 150
 Normal | Reversing | 150
 The First Fit | Pwn | 150
@@ -31,25 +31,6 @@ Abnormal | Reversing | 250
 It's Not Pwn, I Swear! | Reversing | 250
 
 ## Writeups
-
-## Sanity Check (Misc, 15 pts)
-
-**Description**
-
-Welcome to ImaginaryCTF! All flags are written in flag format `ictf{.*}` unless otherwise stated. Have fun and enjoy the challenges!
-
-**Attachments**
-
-`ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}`
-
-**Solution**
-
-Submit the flag. Free 15 points.
-
-**Flag**
-```
-ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}
-```
 
 ## Discord (Misc, 15 pts)
 
@@ -68,6 +49,25 @@ Join discord; flag is at the `#imaginaryctf-2021` channel. Another free 15 point
 **Flag**
 ```
 ictf{d41ly_ch4lls_0n_d1sc0rd_AND_4_ctf?_epic}
+```
+
+## Sanity Check (Misc, 15 pts)
+
+**Description**
+
+Welcome to ImaginaryCTF! All flags are written in flag format `ictf{.*}` unless otherwise stated. Have fun and enjoy the challenges!
+
+**Attachments**
+
+`ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}`
+
+**Solution**
+
+Submit the flag. Free 15 points.
+
+**Flag**
+```
+ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}
 ```
 
 ## Chicken Caesar Salad (Crypto, 50 pts)
@@ -109,8 +109,6 @@ Or do `strings challenge.psd | grep ictf` to get the flag.
 ```
 ictf{wut_how_do_you_see_this}
 ```
-
-## Roos World | Web | 50
 
 ## stackoverflow | Pwn | 50
 
@@ -188,7 +186,7 @@ print("Out of operations!")
 
 So our input is encrypted and decrypted via AES-CBC. I don't know much about encryption, but reading through the [Wikipedia page](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)), the encryption and decryption process involves xor'ing the previous block (16 bytes) of ciphertext with the next block of plaintext/decrypted text. Since the key and IV are initialized before the `for` loop, we have 3 chances to encrypt/decrypt with the same key and IV. Our objective is to recover 'gimmeflag' from the ciphertext, without directly encrypting 'gimmeflag'.
 
-The title and the description a talks about flip flops. Might be something related to bit flipping. Googling "aes cbc bit flipping, the [first result](https://resources.infosecinstitute.com/topic/cbc-byte-flipping-attack-101-approach/) talks about byte flipping attack for aes-cbc. Basically, the decryption process is:
+The title and the description talks about flip flops. Might be something related to bit flipping. Googling "aes cbc bit flipping", the [first result](https://resources.infosecinstitute.com/topic/cbc-byte-flipping-attack-101-approach/) talks about byte flipping attack for aes-cbc. Basically, the decryption process is:
 1. Put the current block of ciphertext through decryption with the provided key;
 2. then xor the result with the previous block of ciphertext, to recover the plaintext.
 
@@ -294,7 +292,7 @@ if __name__ == "__main__":
     main()
 ```
 
-As from the name of the challenge and the description, the python code has a format string to our input: `inp.format(a=stonkgenerator())`. Python functions have a `__globals__` attribute (see [documentation](https://docs.python.org/3/reference/datamodel.html#the-standard-type-hierarchy)), which is a dictionary holding the global variables of the function. Since `stonkgenerator` is a class with an `__init__` and `__str__` methods, we can use those to get access to the global variable `flag`.
+As suggested by the name of the challenge and the description, the python code has a format string to our input: `inp.format(a=stonkgenerator())`. Python functions have a `__globals__` attribute ([documentation](https://docs.python.org/3/reference/datamodel.html#the-standard-type-hierarchy)), which is a dictionary holding the global variables of the function. Since `stonkgenerator` is a class with `__init__` and `__str__` methods, we can use those to get access to the global variable `flag`.
 
 ```
 $ nc chal.imaginaryctf.org 42014
