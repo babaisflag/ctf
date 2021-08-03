@@ -118,15 +118,29 @@ On to a bigger snippet!
 
 ### Second Part
 
->```[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]```
+```
+[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]
++(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]
++([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]
++(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]
+```
 
 Let's convert all the `true` and `false` to make it a little easier to read this:
 
->```[([]["false"[+[]]+"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[]["false"[+[]]+"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+"false"[!+[]+!+[]+!+[]]+"true"[+[]]+"true"[+!+[]]+([][[]]+[])[+[]]+([]["false"[+[]]+"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]]+[])[!+[]+!+[]+!+[]]+"true"[+[]]+(!![]+[]["false"[+[]]+"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]])[+!+[]+[+[]]]+"true"[+!+[]]]```
+```
+[([]["false"[+[]]+"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[]["false"[+[]]
++"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+"false"[!+[]+!+[]+!+[]]+"true"[+[]]
++"true"[+!+[]]+([][[]]+[])[+[]]+([]["false"[+[]]+"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]]+[])[!+[]+!+[]+!+[]]
++"true"[+[]]+(!![]+[]["false"[+[]]+"false"[!+[]+!+[]]+"false"[+!+[]]+"true"[+[]]])[+!+[]+[+[]]]+"true"[+!+[]]]
+```
 
 and the index to a numeric value:
 
->```[([]["false"[0]+"false"[2]+"false"[1]+"true"[0]]+[])[3]+(!![]+[]["false"[0]+"false"[2]+"false"[1]+"true"[0]])[+!+[]+[+[]]]+([][[]]+[])[1]+"false"[3]+"true"[0]+"true"[1]+([][[]]+[])[0]+([]["false"[0]+"false"[2]+"false"[1]+"true"[0]]+[])[3]+"true"[0]+(!![]+[]["false"[0]+"false"[2]+"false"[1]+"true"[0]])[+!+[]+[+[]]]+"true"[1]]```
+```
+[([]["false"[0]+"false"[2]+"false"[1]+"true"[0]]+[])[3]+(!![]+[]["false"[0]+"false"[2]+"false"[1]+"true"[0]])[+!+[]+[+[]]]
++([][[]]+[])[1]+"false"[3]+"true"[0]+"true"[1]+([][[]]+[])[0]+([]["false"[0]+"false"[2]+"false"[1]+"true"[0]]+[])[3]
++"true"[0]+(!![]+[]["false"[0]+"false"[2]+"false"[1]+"true"[0]])[+!+[]+[+[]]]+"true"[1]]
+```
 
 We'll separate them by lines for readability's sake, and also clean up things like `"false"[1]` into single characters.
 
@@ -206,11 +220,20 @@ So we have some useful parts that repeat itself. Let's summarize it here so that
 
 Replacing everything with what we know:
 
->```("true"[+!+[]]+"true"[!+[]+!+[]+!+[]]+"true"[+[]]+"undefined"[+[]]+"true"[+!+[]]+"undefined"[+!+[]]+(+[![]]+[]["flat"])[+!+[]+[+!+[]]]+"true"[!+[]+!+[]+!+[]]+(+(!+[]+!+[]+!+[]+[+!+[]]))["true"[+[]]+("truefunction flat() {...}")[+!+[]+[+[]]]+([]+[])["constructor"]["undefined"[+!+[]]+"false"[+!+[]]+((+[])["constructor"]+[])[+!+[]+[+!+[]]]+"true"[!+[]+!+[]+!+[]]]](!+[]+!+[]+!+[]+[!+[]+!+[]])+"false"[+!+[]]+"false"[!+[]+!+[]])()```
+```
+("true"[+!+[]]+"true"[!+[]+!+[]+!+[]]+"true"[+[]]+"undefined"[+[]]+"true"[+!+[]]+"undefined"[+!+[]]+(+[![]]+[]["flat"])[+!+[]+[+!+[]]]
++"true"[!+[]+!+[]+!+[]]+(+(!+[]+!+[]+!+[]+[+!+[]]))["true"[+[]]+("truefunction flat() {...}")[+!+[]+[+[]]]
++([]+[])["constructor"]["undefined"[+!+[]]+"false"[+!+[]]+((+[])["constructor"]+[])[+!+[]+[+!+[]]]
++"true"[!+[]+!+[]+!+[]]]](!+[]+!+[]+!+[]+[!+[]+!+[]])+"false"[+!+[]]+"false"[!+[]+!+[]])()
+```
 
 Calculating indices:
 
->```("true"[1]+"true"[3]+"true"[0]+"undefined"[0]+"true"[1]+"undefined"[1]+(+[![]]+[]["flat"])["11"]+"true"[3]+(31)["true"[0]+("truefunction flat() {...}")["10"]+([]+[])["constructor"]["undefined"[1]+"false"[1]+((0)["constructor"]+[])["11"]+"true"[3]]]("32")+"false"[1]+"false"[2])()```
+```
+("true"[1]+"true"[3]+"true"[0]+"undefined"[0]+"true"[1]+"undefined"[1]+(+[![]]+[]["flat"])["11"]
++"true"[3]+(31)["true"[0]+("truefunction flat() {...}")["10"]+([]+[])["constructor"]["undefined"[1]+"false"[1]
++((0)["constructor"]+[])["11"]+"true"[3]]]("32")+"false"[1]+"false"[2])()
+```
 
 Concatenating strings:
 
@@ -222,7 +245,7 @@ Concatenating strings:
 +"al")()
 ```
 
-So:
+In the second line
 
 ```
 +[![]]+[]["flat"])["11"]
@@ -258,7 +281,11 @@ Thus, the third part is `("return eval")()`.
 Since the code itself is too long, the result after converting the basic things and cleaning up strings:
 
 ```
-([]["flat"]["constructor"]("return"+("")["fontcolor"]()["12"]+("t143t157nst157le.lt157t147t50at164t157t142t50t42at127N0t132nst170t142nNt167t1152N0t115t110t112ft143t152t101t167t1302t143t167t132t130Nfdt107t147t167t142t155t1649t42t51t51t73")["s"+(211)["toString"](31)[1]+"lit"]("t")[([]["entries"]()+[])[3]+"oin"](([]["flat"]["constructor"]("return"+("false0")["italics"]()["10"]+![]+("false0")["italics"]()["10"])()["constructor"](("false0")["italics"]()["10"])+[])[1])+("")["fontcolor"]()["12"])())
+([]["flat"]["constructor"]("return"+("")["fontcolor"]()["12"]
++("t143t157nst157le.lt157t147t50at164t157t142t50t42at127N0t132nst170t142nNt167t1152N0t115t110t112ft143t152t101t167t1302t143t167t132t130Nfdt107t147t167t142t155t1649t42t51t51t73")
+["s"+(211)["toString"](31)[1]+"lit"]("t")[([]["entries"]()+[])[3]+"oin"]
+(([]["flat"]["constructor"]("return"+("false0")["italics"]()["10"]+![]+("false0")["italics"]()["10"])()["constructor"](("false0")["italics"]()["10"])+[])[1])
++("")["fontcolor"]()["12"])())
 ```
 
 The [`fontcolor`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fontcolor) method for strings returns a string containing `<font>` html element; so `("")["fontcolor"]()` returns `"<font color="undefined"></font>"`. Index 12 of that string is `"`.
