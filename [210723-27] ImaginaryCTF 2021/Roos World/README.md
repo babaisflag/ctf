@@ -37,7 +37,7 @@ ictf{1nsp3ct0r_r00_g0es_th0nk}
 
 ## ... but how does it all work?
 
-*I don't have much experience with JS, so feel free to correct me if I'm wrong on anything*
+*I don't have much experience with JS, so feel free to correct me if I'm wrong.*
 
 I was curious as to how that translated to giving the flag, so I decided to try working it out.
 
@@ -94,9 +94,7 @@ So this line is `"false"[0]`, which is `'f'`.
 
 The first part is `"false"`, as before.
 
-Looking at `!+[]`, both `!` and `+` are unary operators. `+` will first operate on the `[]`, which is a 0. Doing `ToBoolean` on `0` results in `false`, so `!0` is `true`.
-
-So this line translates to `+"false"[true+true]`. Since both are primtive types and neither is a string, they are coerced into numbers. [`true` becomes `1`](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-tonumber), so the result is `+"false"[2]`, which is `+'l'`.
+Looking at `!+[]`, both `!` and `+` are unary operators. `+` will first operate on the `[]`, which is a 0. Doing `ToBoolean` on `0` results in `false`, so `!0` is `true`. Therefore, this line translates to `+"false"[true+true]`. Since both are primtive types and neither is a string, they are coerced into numbers. [`true` becomes `1`](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-tonumber), so the result is `+"false"[2]`, which is `+'l'`.
 
 ```
 +(![]+[])[+!+[]]
@@ -108,7 +106,7 @@ Similarly, this is `+"false"[1]`, or `+'a'`.
 +(!![]+[])[+[]]
 ```
 
-Since `![]` is `false`, `!![]` is `true`. So this line translates to `'+"true"[0]`, or `+'t'`
+Since `![]` is `false`, `!![]` is `true`, and thus this line translates to `'+"true"[0]`, or `+'t'`
 
 The result of all these combined is:
 
@@ -164,13 +162,13 @@ Some new things appeared, such as:
 [][[]]+[]
 ```
 
-The property accessor will coerce the inner `[]` to a string, so this is `[][""]+[]`. The Array object does not have the property named `""`, so it will evaluate to `undefined`. We now have `undefined+[]`; `[]` after `ToPrimitive` operation will become an empty string, so `undefined` will be coerced to a string. The result is `"undefined"`. 
+The property accessor will coerce the inner `[]` to a string, so this is `[][""]+[]`. The Array object does not have the property named `""`, making it will evaluate to `undefined`. We now have `undefined+[]`; because `[]` after `ToPrimitive` operation will become an empty string, `undefined` will be coerced to a string. The result is `"undefined"`. 
 
 ```
 [+!+[]+[+[]]]
 ```
 
-`+!+[]` is `1`; `+[]` is 0. So this is `[1 + [0]]`. In this addition, `[0]` goes through `ToPrimitive`; while the array object does not have a `valueOf` method, it does have a `toString` method, which will concatenate all the elements as a string, joined with `,`. Therefore, `[0]` will become `"0"`. Since one of the operands is a string, the result is `["10"]`.
+`+!+[]` is `1`; `+[]` is 0; therefore, this is `[1 + [0]]`. In this addition, `[0]` goes through `ToPrimitive`; while the array object does not have a `valueOf` method, it does have a `toString` method, which will concatenate all the elements as a string, joined with `,`. Consequently, `[0]` will become `"0"`. Since one of the operands is a string, the result is `["10"]`.
 
 Now the snippet is:
 
@@ -184,7 +182,7 @@ Now the snippet is:
 +"r"]
 ```
 
-As discussed earlier, `[]["flat"]` is a function object `function flat() { [native code] }`. Function objects also don't have a `valueOf` method, but does have a [`toString` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/toString) that returns `"function FunctionName() { [native code] }"`, `[native code]` being the code inside the function.
+As discussed earlier, `[]["flat"]` is a function object `function flat() { [native code] }`. Function objects also don't have a `valueOf` method, but do have a [`toString` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/toString) that returns `"function FunctionName() { [native code] }"`, `[native code]` being the code inside the function.
 
 So `[]["flat"]+[]` will be the string `"function flat() { [native code] }"`, and `true+[]["flat"]` will be the string `"truefunction flat() { [native code] }"`.
 
@@ -192,7 +190,7 @@ Using these, the result of this part is `["constructor"]`.
 
 ### Checkpoint Summary
 
-So we have some useful parts that repeat itself. Let's summarize it here so that we can use it later:
+We now have some useful parts that are used a lot. Let's summarize it here so that we can use it later:
 
 ```
 [([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]
@@ -250,13 +248,13 @@ Concatenating strings:
 ```
 
 In the second line
-
 ```
 +[![]]+[]["flat"])["11"]
 ```
 
 `[![]]` is `[false]`, which goes through `ToNumber`. `[false]` is an Array object, and needs to become a primitive beforehand. `ToPrimitive` will result in the string `"false"`, which cannot be converted to a number ([`StringToNumber`](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-stringtonumber)) and will return `NaN`. The result is therefore `["NaNfunction flat() {...}"[11]]`, which is `" "`.
 
+The fourth line:
 ```
 (31)["to"+([]+[])["constructor"]["na"+((0)["constructor"]+[])["11"]+"e"]]("32")
 ```
@@ -267,12 +265,11 @@ Looking at this specifically:
 ```
 
 `(0)["constructor"]` calls the constructor for the [`Number`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) object, resulting in `function Number() {...}`. This whole snippet therefore is `["name"]`. Now:
-
 ```
 (31)["to"+([]+[])["constructor"]["name"]]("32")
 ```
 
-Since `[]+[]` is the string `""`, we're getting the name of the constructor function of String object, which is `"String"`. We now have `(31)["toString"]("32")`; the argument `32` given to `toString` for the Number object `31` is the [radix](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString#parameters), or the base in which the number will be converted to. 31 in base 32 is `v`.
+Because `[]+[]` is the string `""`, we're getting the name of the constructor function of String object, which is `"String"`. We now have `(31)["toString"]("32")`; the argument `32` given to `toString` for the Number object `31` is the [radix](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString#parameters), or the base in which the number will be converted to. 31 in base 32 is `v`.
 
 Thus, the third part is `("return eval")()`.
 
@@ -282,7 +279,7 @@ Thus, the third part is `("return eval")()`.
 ([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]]+((!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(+(+!+[]+[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]]+[+[]])+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(+[![]]+[])[+[]]+[+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]]+[!+[]+!+[]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+([][[]]+[])[+!+[]]+(+[![]]+[])[+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(+[![]]+[])[+[]]+[+[]]+(!![]+[])[+[]]+[+!+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[+!+[]]+[+[]]+(!![]+[])[+[]]+[+!+[]]+[+!+[]]+[!+[]+!+[]]+(![]+[])[+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[+[]]+[+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]]+[+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]]+[+[]]+(+[![]]+[])[+[]]+(![]+[])[+[]]+([][[]]+[])[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]+[+!+[]]+(!![]+[])[+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]+!+[]+!+[]]+[!+[]+!+[]+!+[]])[(![]+[])[!+[]+!+[]+!+[]]+(+(!+[]+!+[]+[+!+[]]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]](!+[]+!+[]+!+[]+[+!+[]])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]]((!![]+[])[+[]])[([][(!![]+[])[!+[]+!+[]+!+[]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([![]]+[][[]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]](([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]]+![]+(![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]])()[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]])+[])[+!+[]])+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]])())
 ```
 
-Since the code itself is too long, the result after converting the basic things and cleaning up strings:
+The result after converting basic things and cleaning up strings:
 
 ```
 ([]["flat"]["constructor"]("return"+("")["fontcolor"]()["12"]
@@ -294,9 +291,11 @@ Since the code itself is too long, the result after converting the basic things 
 
 The [`fontcolor`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fontcolor) method for strings returns a string containing `<font>` html element; so `("")["fontcolor"]()` returns `"<font color="undefined"></font>"`. Index 12 of that string is `"`.
 
-We'll ignore the strange string in the middle for now.
+We'll ignore the strange string in the middle for now, but it's worth mentioning how `.` is produced.
 
-`(211)["toString"](31)[1]` will convert `211` to a base-31 string, which is `"6p"`. Index 1 of this string is `'p'`.
+After simplifying the numbers, `(+(1+[1]+"e"+[2]+[0])+[])[1]` is the snippet that results in `.`; this is `(+"11e20"+[])`. JS accepts scientific notations, and will display numbers greater than or equal to `1e21` in it. `+"11e20"` results in `1.1e21`, so the snippet `(+(1+[1]+"e"+[2]+[0])+[])[1]` takes index 1 of string `"1.1e21"`, which is `.`.
+
+In the next part, `(211)["toString"](31)[1]` will convert `211` to a base-31 string, which is `"6p"`. Index 1 of this string is `'p'`.
 
 `("false0")["italics"]()["10"]`: the [`italics`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/italics) method returns a string containing an `<i>` HTML element. This one returns `"<i>false0</i>"`, the 10th index of which is `/`.
 
@@ -349,7 +348,7 @@ Combining all the parts together, we have:
 - Third Part: `("return eval")()`
 - Last Part: `func()`, which returns the string `"console.log(atob(\&quot;aWN0ZnsxbnNwM2N0MHJfcjAwX2cwZXNfdGgwbmt9\&quot;));"`
 
-`[]["flat"]["constructor"]` returns a function prototype, so the first three parts combined is a call to a function that returns `eval`. `eval` is a [global function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval) that executes the javascript code given as a string. This code as a whole, therefore, calls a function that returns `eval` - a global function - that takes in the return value from another function, which returns `"console.log(atob(\&quot;aWN0ZnsxbnNwM2N0MHJfcjAwX2cwZXNfdGgwbmt9\&quot;));"`. This, given to `eval`, executes the command as is, decoding the base64-encoded string and prints out to the console.
+`[]["flat"]["constructor"]` returns a function prototype, so the first three parts combined is a call to a function that returns `eval`. `eval` is a [global function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval) that executes the javascript code given as a string. This code as a whole, therefore, calls a function that returns `eval`, which takes in the return value from another function that returns `"console.log(atob(\&quot;aWN0ZnsxbnNwM2N0MHJfcjAwX2cwZXNfdGgwbmt9\&quot;));"`. This, given to `eval`, executes the command as is, decoding the base64-encoded string and printing the result out to the console.
 
 ## Afterthought
 
