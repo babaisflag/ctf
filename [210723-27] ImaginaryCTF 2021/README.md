@@ -6,29 +6,29 @@ ImaginaryCTF 2021, from July 23 4PM - July 27 4PM (UTC).
 
 (writeups to challenges are linked here, arranged by points)
 
-Challenge | Category | Points
---------- | -------- | ------
-[Discord](#discord-misc-15-pts)	| Misc | 15
-[Sanity Check](#sanity-check-misc-15-pts) | Misc | 15
-[Chicken Caesar Salad](#chicken-caesar-salad-crypto-50-pts) | Crypto | 50
-[Hidden](#hidden-forensics-50-pts) | Forensics | 50
-[Roos World](Roos%20World/README.md) | Web | 50
-Stackoverflow | Pwn | 50
-Fake Canary | Pwn | 100
-[Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100
-[Formatting](#formatting-misc-100-pts) | Misc | 100
-[Spelling Test](#spelling-test-misc-100-pts) | Misc | 100
-Stings | Rev | 100
-[Vacation](#vacation-forensics-100-pts) | Forensics | 100
-Lines | Crypto | 150
-Normal | Reversing | 150
-The First Fit | Pwn | 150
-Jumprope | Reversing | 200
-No Thoughts, Head Empty | Reversing | 200
-linonophobia | Pwn | 200
-Speedrun | Pwn | 200
-Abnormal | Reversing | 250
-[It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!/README.md) | Reversing | 250
+Challenge | Category | Points | Solves | Comments
+--------- | -------- | ------ | ------ | --------
+[Discord](#discord-misc-15-pts)	| Misc | 15 | 739
+[Sanity Check](#sanity-check-misc-15-pts) | Misc | 15 | 996
+[Chicken Caesar Salad](#chicken-caesar-salad-crypto-50-pts) | Crypto | 50 | 929
+[Hidden](#hidden-forensics-50-pts) | Forensics | 50 | 740
+[Roos World](Roos%20World/README.md) | Web | 50 | 853 | Exploration into JSFuck
+Stackoverflow | Pwn | 50 | 413
+Fake Canary | Pwn | 100 | 207
+[Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160
+[Formatting](#formatting-misc-100-pts) | Misc | 100 | 302
+[Spelling Test](#spelling-test-misc-100-pts) | Misc | 100 | 303
+Stings | Rev | 100 | 291
+[Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339
+Lines | Crypto | 150 | 128
+Normal | Reversing | 150 | 109
+The First Fit | Pwn | 150 | 139
+Jumprope | Reversing | 200 | 47
+No Thoughts, Head Empty | Reversing | 200 | 101
+linonophobia | Pwn | 200 | 70
+Speedrun | Pwn | 200 | 61
+Abnormal | Reversing | 250 | 28
+[It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!/README.md) | Reversing | 250 | 34
 
 ## Writeups
 
