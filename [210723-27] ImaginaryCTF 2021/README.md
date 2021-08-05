@@ -28,7 +28,7 @@ No Thoughts, Head Empty | Reversing | 200
 linonophobia | Pwn | 200
 Speedrun | Pwn | 200
 Abnormal | Reversing | 250
-It's Not Pwn, I Swear! | Reversing | 250
+[It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!/README.md) | Reversing | 250
 
 ## Writeups
 
@@ -410,4 +410,3 @@ ictf{38.947_-119.961}
 ## linonophobia | Pwn | 200
 ## Speedrun | Pwn | 200
 ## Abnormal | Reversing | 250
-## It's Not Pwn, I Swear! | Reversing | 250
