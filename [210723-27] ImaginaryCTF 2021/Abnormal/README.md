@@ -8,7 +8,7 @@ Continuation from [Normal](README.md#normal-reversing-150-pts).
 
 ## Attachments
 
-[abnormal.v](Abnormal/abnormal.v) (comments mine)
+[abnormal.v](abnormal.v) (comments mine)
 
 ## Solution
 
