@@ -403,7 +403,44 @@ ictf{38.947_-119.961}
 ```
 
 ## Lines | Crypto | 150
-## Normal | Reversing | 150
+## Normal (Reversing, 150 pts)
+
+**Description**
+
+Norse senor snorts spores, abhors non-nors, adores s'mores, and snores.
+
+**Attachments**
+
+[normal.v](_Attachments/normal.v)
+
+[Makefile](_Attachments/Makefile)
+
+**Solution**
+
+Looking into the given [verilog](https://en.wikipedia.org/wiki/Verilog#:~:text=Verilog%2C%20standardized%20as%20IEEE%201364,register%2Dtransfer%20level%20of%20abstraction.&text=Since%20then%2C%20Verilog%20is%20officially%20part%20of%20the%20SystemVerilog%20language.) file, the main function has a `flag` variable that's 256 bits long, and a `wrong` variable that is also 256 bits long. `normal flagchecker(wrong, flag)` is called, and if `wrong` is 0, it will be display "Correct!". So we need to make `wrong` 0.
+
+Looking at the module `normal`, `wrong` is `out` and the `flag` is `in`; the module is only done with `nor` operations. Let's build a diagram:
+
+![image](https://user-images.githubusercontent.com/11196638/128667985-f16e3feb-6373-44cb-a706-d68b90cf429d.png)
+
+and a truth table:
+
+![image](https://user-images.githubusercontent.com/11196638/128668098-ad746536-de00-449b-8a63-b9174b571697.png)
+
+We see that `w5` is `c1 ^ in`, and `out` is `~(w5 ^ c2)`, which is `~(in ^ c1 ^ c2)`; we want `out` to be `0`. So `in = (~0) ^ c1 ^ c2`.
+
+``` py
+In : import binascii
+
+In : binascii.unhexlify(hex(c1^c2^0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)[2:])
+Out: b'ictf{A11_ha!1_th3_n3w_n0rm_n0r!}'
+```
+
+**Flag**
+```
+ictf{A11_ha!1_th3_n3w_n0rm_n0r!}
+```
+
 ## The First Fit | Pwn | 150
 ## Jumprope | Reversing | 200
 ## No Thoughts, Head Empty | Reversing | 200
