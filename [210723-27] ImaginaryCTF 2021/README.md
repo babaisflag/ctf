@@ -78,7 +78,7 @@ I remember the good old days when Caesar ciphers were easy…
 
 **Attachments**
 
-`chicken-caesar-salad.txt`; contains `qkbn{ePmv_lQL_kIMamZ_kQxpMZa_oMb_aW_pIZl}`
+[`chicken-caesar-salad.txt`](_Attachments/chicken-caesar-salad.txt)
 
 **Solution**
 
@@ -97,7 +97,7 @@ Oh no, someone hid my flag behind a giant red block! Please help me retrieve it!
 
 **Attachments**
 
-`challenge.psd`
+[`challenge.psd`](_Attachments/challenge.psd)
 
 **Solution**
 
@@ -122,7 +122,7 @@ Yesterday, Roo bought some new flip flops. Let's see how good at flopping you ar
 
 **Attachments**
 
-`flop.py` ([src](_Attachments/flop.py))
+[`flop.py`](_Attachments/flop.py)
 
 **Solution**
 
@@ -253,7 +253,7 @@ Wait, I thought format strings were only in C???
 
 **Attachments**
 
-`stonks.py` ([src](_Attachments/stonks.py))
+[`stonks.py`](_Attachments/stonks.py)
 
 **Solution**
 
@@ -329,7 +329,7 @@ NOTE: the words are spelled in American English
 
 **Attachments**
 
-`words.txt` ([file](_Attachments/words.txt))
+[`words.txt`](_Attachments/words.txt)
 
 **Solution**
 
@@ -383,7 +383,7 @@ Roo's cousin was on vacation, but he forgot to tell us where he went! But he pos
 
 **Attachments**
 
-`image.jpg` ([image](_Attachments/image.jpg))
+[`image.jpg`](_Attachments/image.jpg)
 
 **Solution**
 
@@ -411,9 +411,9 @@ Norse senor snorts spores, abhors non-nors, adores s'mores, and snores.
 
 **Attachments**
 
-[normal.v](Normal/normal.v)
+[normal.v](_Attachments/normal.v)
 
-[Makefile](Normal/Makefile)
+[Makefile](_Attachments/Makefile)
 
 **Solution**
 
