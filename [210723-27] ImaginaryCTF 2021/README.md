@@ -18,7 +18,7 @@ Challenge | Category | Points | Solves | Comments
 [Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160
 [Formatting](#formatting-misc-100-pts) | Misc | 100 | 302
 [Spelling Test](#spelling-test-misc-100-pts) | Misc | 100 | 303
-[Stings](#stings-reversing-100-points) | Reversing | 100 | 291
+[Stings](#stings-reversing-100-pts) | Reversing | 100 | 291
 [Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339
 [Lines](#lines-crypto-150-pts) | Crypto | 150 | 128
 [Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
@@ -28,7 +28,7 @@ No Thoughts, Head Empty | Reversing | 200 | 101
 linonophobia | Pwn | 200 | 70
 Speedrun | Pwn | 200 | 61
 [Abnormal](Abnormal) | Reversing | 250 | 28 | verilog
-[It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!/README.md) | Reversing | 250 | 34
+[It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!) | Reversing | 250 | 34
 
 ## Writeups
 
@@ -492,4 +492,3 @@ ictf{A11_ha!1_th3_n3w_n0rm_n0r!}
 ## No Thoughts, Head Empty | Reversing | 200
 ## linonophobia | Pwn | 200
 ## Speedrun | Pwn | 200
-## Abnormal | Reversing | 250
