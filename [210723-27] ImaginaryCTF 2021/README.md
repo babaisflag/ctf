@@ -12,22 +12,22 @@ Challenge | Category | Points | Solves | Comments
 [Sanity Check](#sanity-check-misc-15-pts) | Misc | 15 | 996
 [Chicken Caesar Salad](#chicken-caesar-salad-crypto-50-pts) | Crypto | 50 | 929
 [Hidden](#hidden-forensics-50-pts) | Forensics | 50 | 740
-[Roos World](Roos%20World/README.md) | Web | 50 | 853 | Exploration into JSFuck
+[Roos World](Roos%20World) | Web | 50 | 853 | Exploration into JSFuck
 [Stackoverflow](#stackoverflow-pwn-50-pts) | Pwn | 50 | 413
 [Fake Canary](#fake-canary-pwn-100-pts) | Pwn | 100 | 207
 [Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160
 [Formatting](#formatting-misc-100-pts) | Misc | 100 | 302
 [Spelling Test](#spelling-test-misc-100-pts) | Misc | 100 | 303
-Stings | Rev | 100 | 291
+[Stings](#strings-reversing-100-points) | Reversing | 100 | 291
 [Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339
-Lines | Crypto | 150 | 128
-[Normal](#normal-reversing-150-pts) | Reversing | 150 | 109
+[Lines](#lines-crypto-150-pts) | Crypto | 150 | 128
+[Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
 The First Fit | Pwn | 150 | 139
 Jumprope | Reversing | 200 | 47
 No Thoughts, Head Empty | Reversing | 200 | 101
 linonophobia | Pwn | 200 | 70
 Speedrun | Pwn | 200 | 61
-Abnormal | Reversing | 250 | 28
+[Abnormal](Abnormal) | Reversing | 250 | 28 | verilog
 [It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!/README.md) | Reversing | 250 | 34
 
 ## Writeups
@@ -359,7 +359,31 @@ Something seems off. Looking at the list, it seems that 'yorkshere' became 'work
 ictf{youpassedthespellingtest}
 ```
 
-## Stings | Rev | 100
+## Stings (Reversing, 100 pts)
+
+**Description**
+
+Enter the beehive. Don't get stung.
+
+(Note: the password/flag is in the format ictf{.*})
+
+**Attachments**
+
+[stings](_Attachments/stings)
+
+**Solution**
+
+There's only one function, `main`.
+
+![image](https://user-images.githubusercontent.com/11196638/128692078-673faa40-27ad-405e-b483-df04ce164e84.png)
+
+So there's some string on the stack from `rbp-0x1110`, and our input is stored at `rbp-0x1210`; the loop compares our input to the stored string, character by character, but it subtracts 1 from the character of the stored string before comparing. Doing so gives us the flag.
+
+**Flag**
+```
+ictf{str1ngs_4r3nt_h1dd3n_17b21a69}'
+```
+
 ## Vacation (Forensics, 100 pts)
 
 **Description**
@@ -387,7 +411,44 @@ Searching 'city of south lake tahoe sugar pine bakery' in google maps, we do ind
 ictf{38.947_-119.961}
 ```
 
-## Lines | Crypto | 150
+## Lines (Crypto, 150 pts)
+
+**Description**
+
+Try to crack my unbreakable™ encryption! I based it off of the Diffie-Helman key exchange!
+
+**Attachments**
+
+[lines.py](_Attachments/lines.py)
+
+[out.txt](_Attachments/out.txt)
+
+**Solution**
+
+The `encrypt` function is just `s * msg % p`; since we know the original message for the `:roocursion:` message, we can find out `s` by taking the modular multiplicative inverse, and then use that `s` to figure out the flag.
+
+```py
+from Crypto.Util.number import bytes_to_long
+from binascii import unhexlify
+
+p = 82820875767540480278499859101602250644399117699549694231796720388646919033627
+msg = bytes_to_long(b":roocursion:")
+encrypted_msg = 15673067813634207159976639166112349879086089811595176161282638541391245739514
+encrypted_flag = 26128737736971786465707543446495988011066430691718096828312365072463804029545
+
+inv_msg = pow(msg, -1, p)       # 54864004291246804401341290931185162835786921440081671370403905989696416063004
+s = encrypted_msg*inv_msg % p   # 47724061801079554597466585626373440191004658414760256322329566876897497386054
+inv_s = pow(s, -1, p)           # 3282051094907229565273573872951361003221021290446275324072340426107730632901
+flag = inv_s*encrypted_flag % p # 0x696374667b6d30645f34723174685f6674775f31633936333234317d
+
+print(unhexlify(hex(flag)[2:]))
+```
+
+**Flag**
+```
+ictf{m0d_4r1th_ftw_1c963241}
+```
+
 ## Normal (Reversing, 150 pts)
 
 **Description**
