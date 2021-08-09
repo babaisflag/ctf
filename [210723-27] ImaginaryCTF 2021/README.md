@@ -24,7 +24,7 @@ Challenge | Category | Points | Solves | Comments
 [Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
 [The First Fit](#the-first-fit-pwn-150-pts) | Pwn | 150 | 139
 Jumprope | Reversing | 200 | 47
-No Thoughts, Head Empty | Reversing | 200 | 101
+[No Thoughts, Head Empty](#no-thoughts-head-empty-reversing-200-pts) | Reversing | 200 | 101
 linonophobia | Pwn | 200 | 70
 Speedrun | Pwn | 200 | 61
 [Abnormal](Abnormal) | Reversing | 250 | 28 | verilog
@@ -38,7 +38,7 @@ Speedrun | Pwn | 200 | 61
 
 Join our Discord server! We can provide support for challenge issues there, AND we have practice challenges everyday when this CTF isn't running. Join at https://discord.gg/ctf .
 
-**Attachments**
+**Attachment**
 
 https://discord.gg/ctf
 
@@ -57,7 +57,7 @@ ictf{d41ly_ch4lls_0n_d1sc0rd_AND_4_ctf?_epic}
 
 Welcome to ImaginaryCTF! All flags are written in flag format `ictf{.*}` unless otherwise stated. Have fun and enjoy the challenges!
 
-**Attachments**
+**Attachment**
 
 `ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}`
 
@@ -76,7 +76,7 @@ ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}
 
 I remember the good old days when Caesar ciphers were easy…
 
-**Attachments**
+**Attachment**
 
 [`chicken-caesar-salad.txt`](_Attachments/chicken-caesar-salad.txt)
 
@@ -95,7 +95,7 @@ ictf{wHen_dID_cAEseR_cIphERs_gEt_sO_hARd}
 
 Oh no, someone hid my flag behind a giant red block! Please help me retrieve it!!
 
-**Attachments**
+**Attachment**
 
 [`challenge.psd`](_Attachments/challenge.psd)
 
@@ -116,7 +116,7 @@ ictf{wut_how_do_you_see_this}
 
 Welcome to Stack Overflow! Get answers to all your programming questions right here!
 
-**Attachments**
+**Attachment**
 
 [stackoverflow](_Attachments/stackoverflow)
 
@@ -126,7 +126,7 @@ Classic stack overflow; let's look at the disassembly.
 
 ![image](https://user-images.githubusercontent.com/11196638/128671598-7a95bac3-db24-4747-a5fb-260eee9d98e2.png)
 
-So it reads via `scanf` to the buffer at `rbp-0x30`; there's also a `DEBUG MODE` line after some check, which is `cmp qword [var_8h], 0x69637466; jne 0x85f`. So it compares whatever's at `rbp-0x8` to `0x69637466`, which is "ictf" backwords. Then our objective is to write 0x28 bytes of anything and then write "ftci".
+It reads via `scanf` to the buffer at `rbp-0x30`; there's also a `DEBUG MODE` line after some check, which is `cmp qword [var_8h], 0x69637466; jne 0x85f`. So it compares whatever's at `rbp-0x8` to `0x69637466`, or "ictf" backwords. Then our objective is to write 0x28 bytes of anything and then write "ftci".
 
 ```
 $ nc chal.imaginaryctf.org 42001
@@ -149,7 +149,7 @@ ictf{4nd_th4t_1s_why_y0u_ch3ck_1nput_l3ngth5_486b39aa}
 
 Here at Stack Smasher Inc, we protect all our stacks with industry grade canaries!
 
-**Attachments**
+**Attachment**
 
 [fake_canary](_Attachments/fake_canary)
 
@@ -198,13 +198,13 @@ ictf{m4ke_y0ur_canaries_r4ndom_f492b211}
 
 Yesterday, Roo bought some new flip flops. Let's see how good at flopping you are.
 
-**Attachments**
+**Attachment**
 
 [`flop.py`](_Attachments/flop.py)
 
 **Solution**
 
-So our input is encrypted and decrypted via AES-CBC. I don't know much about encryption, but reading through the [Wikipedia page](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)), the encryption and decryption process involves xor'ing the previous block (16 bytes) of ciphertext with the next block of plaintext/decrypted text. Since the key and IV are initialized before the `for` loop, we have 3 chances to encrypt/decrypt with the same key and IV. Our objective is to recover 'gimmeflag' from the ciphertext, without directly encrypting 'gimmeflag'.
+Our input is encrypted and decrypted via AES-CBC. I don't know much about encryption, but reading through the [Wikipedia page](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)), the encryption and decryption process involves xor'ing the previous block (16 bytes) of ciphertext with the next block of plaintext/decrypted text. Since the key and IV are initialized before the `for` loop, we have 3 chances to encrypt/decrypt with the same key and IV. Our objective is to recover 'gimmeflag' from the ciphertext without directly encrypting 'gimmeflag'.
 
 The title and the description talks about flip flops. Might be something related to bit flipping. Googling "aes cbc bit flipping", the [first result](https://resources.infosecinstitute.com/topic/cbc-byte-flipping-attack-101-approach/) talks about byte flipping attack for aes-cbc. Basically, the decryption process is:
 1. Put the current block of ciphertext through decryption with the provided key;
@@ -271,7 +271,7 @@ ictf{fl1p_fl0p_b1ts_fl1pped_b6731f96}
 
 Wait, I thought format strings were only in C???
 
-**Attachments**
+**Attachment**
 
 [`stonks.py`](_Attachments/stonks.py)
 
@@ -312,7 +312,7 @@ I made a spelling test for you, but with a twist. There are several words in wor
 
 NOTE: the words are spelled in American English
 
-**Attachments**
+**Attachment**
 
 [`words.txt`](_Attachments/words.txt)
 
@@ -367,7 +367,7 @@ Enter the beehive. Don't get stung.
 
 (Note: the password/flag is in the format ictf{.*})
 
-**Attachments**
+**Attachment**
 
 [stings](_Attachments/stings)
 
@@ -377,7 +377,7 @@ There's only one function, `main`.
 
 ![image](https://user-images.githubusercontent.com/11196638/128692078-673faa40-27ad-405e-b483-df04ce164e84.png)
 
-So there's some string on the stack from `rbp-0x1110`, and our input is stored at `rbp-0x1210`; the loop compares our input to the stored string, character by character, but it subtracts 1 from the character of the stored string before comparing. Doing so gives us the flag.
+There's some string on the stack from `rbp-0x1110`, and our input is stored at `rbp-0x1210`; the loop compares our input to the stored string, character by character, but it subtracts 1 from the character of the stored string before comparing. Doing so gives us the flag.
 
 **Flag**
 ```
@@ -390,7 +390,7 @@ ictf{str1ngs_4r3nt_h1dd3n_17b21a69}'
 
 Roo's cousin was on vacation, but he forgot to tell us where he went! But he posted this image on his social media. Could you track down his location? Submit your answer as ictf{latitude_longitude}, with both rounded to 3 decimal places. Example: ictf{-12.345_42.424} (Note: only the image is needed for this challenge, as this is an OSINT challenge.)
 
-**Attachments**
+**Attachment**
 
 [`image.jpg`](_Attachments/image.jpg)
 
@@ -465,7 +465,7 @@ Norse senor snorts spores, abhors non-nors, adores s'mores, and snores.
 
 Looking into the given [verilog](https://en.wikipedia.org/wiki/Verilog#:~:text=Verilog%2C%20standardized%20as%20IEEE%201364,register%2Dtransfer%20level%20of%20abstraction.&text=Since%20then%2C%20Verilog%20is%20officially%20part%20of%20the%20SystemVerilog%20language.) file, the main function has a `flag` variable that's 256 bits long, and a `wrong` variable that is also 256 bits long. `normal flagchecker(wrong, flag)` is called, and if `wrong` is 0, it will be display "Correct!". So we need to make `wrong` 0.
 
-Looking at the module `normal`, `wrong` is `out` and the `flag` is `in`; the module is only done with `nor` operations. Let's build a diagram:
+Looking at the module `normal`, `wrong` is `out` and the `flag` is `in`; the module is only done with `nor` operations. Let's draw a diagram:
 
 ![image](https://user-images.githubusercontent.com/11196638/128667985-f16e3feb-6373-44cb-a706-d68b90cf429d.png)
 
@@ -559,6 +559,49 @@ ictf{w3lc0me_t0_h34p_24bd59b0}
 ```
 
 ## Jumprope | Reversing | 200
-## No Thoughts, Head Empty | Reversing | 200
+
+## No Thoughts, Head Empty (Reversing, 200 pts)
+
+**Description**
+
+When I was making Roolang, of course I took a look at the mother of all esolangs! So, have some bf code. Run it here (https://copy.sh/brainfuck/) with 32 bit cells and dynamic memory enabled. Run the program to get the flag, and then some.
+
+**Attachment**
+
+[flag_min.bf](_Attachments/flag_min.bf)
+
+**Solution**
+
+If we run the given code at the linked website, we get:
+
+```
+iccttttffffffff{{{{{{{{{{{{{{{{00000000000000000000000000000000nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn...
+```
+
+which goes on and on - looks like it's multiplying the number of characters repeated by 2. Eventually it runs out of memory before printing out everything.
+
+In `brainfuck`, `.` outputs data; looking at the javascript equivalent, the data pointer is at somewhere around 37 when the print loop starts. So, it would suffice to delete the print loop, then move the data pointer to 0, then loop through to print only once per each character.
+
+original:
+```
+16. ++++++++++>-]-[<------------------->+]>>++++++[<++++++>-]--[<-->+]+<[>[->+>++<<]
+17. >>[-<<+>>]<[[<]<[<]>.[>]>[>]<-][<]<[<]<[<]>[-]>[>]>-]               ^
+// comment:                                             ^               | print loop starts here
+                                   print loop ends here |
+```
+
+fixed:
+```
+++++++++++>-]-[<------------------->+]>>++++++[<++++++>-]--[<-->+]+<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<[.>]
+```
+
+Result is the flag.
+
+**Flag**
+```
+ictf{0n3_ch@r@ct3r_0f_d1f3r3nce}
+```
+
 ## linonophobia | Pwn | 200
 ## Speedrun | Pwn | 200
