@@ -18,7 +18,7 @@ Challenge | Category | Points | Solves | Comments
 [Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160
 [Formatting](#formatting-misc-100-pts) | Misc | 100 | 302
 [Spelling Test](#spelling-test-misc-100-pts) | Misc | 100 | 303
-[Stings](#strings-reversing-100-points) | Reversing | 100 | 291
+[Stings](#stings-reversing-100-points) | Reversing | 100 | 291
 [Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339
 [Lines](#lines-crypto-150-pts) | Crypto | 150 | 128
 [Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
