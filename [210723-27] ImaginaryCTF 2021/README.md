@@ -44,7 +44,7 @@ https://discord.gg/ctf
 
 **Solution**
 
-Join discord; flag is at the `#imaginaryctf-2021` channel. Another free 15 points.
+Join discord; flag is at the `#imaginaryctf-2021` channel. Free 15 points.
 
 **Flag**
 ```
@@ -63,7 +63,7 @@ Welcome to ImaginaryCTF! All flags are written in flag format `ictf{.*}` unless 
 
 **Solution**
 
-Submit the flag. Free 15 points.
+Submit the flag. Another free 15 points.
 
 **Flag**
 ```
