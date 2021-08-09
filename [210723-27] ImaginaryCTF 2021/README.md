@@ -21,7 +21,7 @@ Fake Canary | Pwn | 100 | 207
 Stings | Rev | 100 | 291
 [Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339
 Lines | Crypto | 150 | 128
-Normal | Reversing | 150 | 109
+[Normal](#normal-reversing-150-pts) | Reversing | 150 | 109
 The First Fit | Pwn | 150 | 139
 Jumprope | Reversing | 200 | 47
 No Thoughts, Head Empty | Reversing | 200 | 101
@@ -411,9 +411,9 @@ Norse senor snorts spores, abhors non-nors, adores s'mores, and snores.
 
 **Attachments**
 
-[normal.v](_Attachments/normal.v)
+[normal.v](Normal/normal.v)
 
-[Makefile](_Attachments/Makefile)
+[Makefile](Normal/Makefile)
 
 **Solution**
 
