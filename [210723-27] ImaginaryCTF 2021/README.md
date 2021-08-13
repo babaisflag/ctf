@@ -25,7 +25,7 @@ Challenge | Category | Points | Solves | Comments
 [The First Fit](#the-first-fit-pwn-150-pts) | Pwn | 150 | 139
 Jumprope | Reversing | 200 | 47
 [No Thoughts, Head Empty](#no-thoughts-head-empty-reversing-200-pts) | Reversing | 200 | 101
-linonophobia | Pwn | 200 | 70
+[linonophobia](Linonophobia) | Pwn | 200 | 70
 Speedrun | Pwn | 200 | 61
 [Abnormal](Abnormal) | Reversing | 250 | 28 | verilog
 [It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!) | Reversing | 250 | 34
@@ -603,5 +603,4 @@ Result is the flag.
 ictf{0n3_ch@r@ct3r_0f_d1f3r3nce}
 ```
 
-## linonophobia | Pwn | 200
 ## Speedrun | Pwn | 200
