@@ -40,7 +40,7 @@ Join our Discord server! We can provide support for challenge issues there, AND 
 
 **Attachment**
 
-https://discord.gg/ctf
+`https://discord.gg/ctf`
 
 **Solution**
 
@@ -118,7 +118,7 @@ Welcome to Stack Overflow! Get answers to all your programming questions right h
 
 **Attachment**
 
-[stackoverflow](_Attachments/stackoverflow)
+[`stackoverflow`](_Attachments/stackoverflow)
 
 **Solution**
 
@@ -151,7 +151,7 @@ Here at Stack Smasher Inc, we protect all our stacks with industry grade canarie
 
 **Attachment**
 
-[fake_canary](_Attachments/fake_canary)
+[`fake_canary`](_Attachments/fake_canary)
 
 **Solution**
 
@@ -369,7 +369,7 @@ Enter the beehive. Don't get stung.
 
 **Attachment**
 
-[stings](_Attachments/stings)
+[`stings`](_Attachments/stings)
 
 **Solution**
 
@@ -419,9 +419,9 @@ Try to crack my unbreakable™ encryption! I based it off of the Diffie-Helman k
 
 **Attachments**
 
-[lines.py](_Attachments/lines.py)
+[`lines.py`](_Attachments/lines.py)
 
-[out.txt](_Attachments/out.txt)
+[`out.txt`](_Attachments/out.txt)
 
 **Solution**
 
@@ -457,9 +457,9 @@ Norse senor snorts spores, abhors non-nors, adores s'mores, and snores.
 
 **Attachments**
 
-[normal.v](_Attachments/normal.v)
+[`normal.v`](_Attachments/normal.v)
 
-[Makefile](_Attachments/Makefile)
+[`Makefile`](_Attachments/Makefile)
 
 **Solution**
 
@@ -495,9 +495,9 @@ Let's get started with a simple heap exploit!
 
 **Attachments**
 
-[the_first_fit](_Attachments/the_first_fit)
+[`the_first_fit`](_Attachments/the_first_fit)
 
-[the_first_fit.c](_Attachments/the_first_fit.c)
+[`the_first_fit.c`](_Attachments/the_first_fit.c)
 
 **Solution**
 
@@ -568,7 +568,7 @@ When I was making Roolang, of course I took a look at the mother of all esolangs
 
 **Attachment**
 
-[flag_min.bf](_Attachments/flag_min.bf)
+[`flag_min.bf`](_Attachments/flag_min.bf)
 
 **Solution**
 
