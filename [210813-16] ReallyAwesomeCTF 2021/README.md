@@ -13,7 +13,7 @@ Challenge | Category | Points | Solves | Comments
 [Triangles](#OSINT) | OSINT | 100 | 451
 [RSFPWS - Intercepted](#RSFPWS---Intercepted-Miscellaneous-150-pts) | Miscellaneous | 150 | 99
 [Silver Darlings](#OSINT) | OSINT | 150 | 325
-[Call&Response](#Call&Response-Miscellaneous-200-pts) | Miscellaneous | 200 | 123
+[Call&Response](#CallResponse-Miscellaneous-200-pts) | Miscellaneous | 200 | 123
 [John Poet](#OSINT) | OSINT | 200 | 285
 [OHSHINT](#OSINT) | OSINT | 200 | 172
 [50m on the Right](#OSINT) | OSINT | 250 | 300
@@ -47,7 +47,7 @@ ractf{so_here_we_are_again}
 
 Challenge | Location Link | Explanation
 --------- | ------------- | -----------
-[Triangles](OSINT_images/traingles.jpg) | https://goo.gl/maps/qr7Qbriw2egc8SFBA | Ragusa Foto Festival; in the left down corner, there's a sign with Palazzo Cosentini, etc...
+[Triangles](OSINT_images/triangles.jpg) | https://goo.gl/maps/qr7Qbriw2egc8SFBA | Ragusa Foto Festival; in the left down corner, there's a sign with Palazzo Cosentini, etc...
 [Skyline](OSINT_images/skyline.jpg) | https://goo.gl/maps/ycHeJL72VyLpFAp97 | Go along London's river, look for two towers and a zipline, with a small river that goes off the side
 [Silver Darlings](OSINT_images/silver_darlings.jpg) | https://goo.gl/maps/tgKfk3gWUrgwoEJaA | Cafe de la Mairie, Chambres dhotes
 [John Poet](OSINT_images/john_poet.jpg) | https://goo.gl/maps/kofmRvGnRvNGPCQD8 | RHC, glass buildings, parasol; Rail House Cafe
