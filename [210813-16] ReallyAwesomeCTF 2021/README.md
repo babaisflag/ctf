@@ -22,7 +22,11 @@ Challenge | Category | Points | Solves | Comments
 [Dodgy Databases](#Dodgy-Databases-PwnReversing-350-pts) | Pwn/Reversing | 350 | 117
 [Emojibook](#Emojibook-Web-350-pts) | Web | 350 | 133
 [Lego Car Generator](#Lego-Car-Generator-PwnReversing-350-pts) | Pwn/Reversing | 350 | 54
-Packed | Pwn/Reversing | 350 | 56
+[Packed](#Packed-PwnReversing-350-pts) | Pwn/Reversing | 350 | 56
+
+## Afterthoughts
+
+This was my second time participating in a CTF. This one was really different from the previous one and the other ones that I've seen, because the usual categories are Web, Pwn, Reversing, Crypto, and Miscellaneous (which usually includes OSINT, forensics, or stego). This time, pwn/reversing (and crypto, although not specifically in the name) were all combined into one category, and Miscellaneous, OSINT, and Steganography got their own categories. My personal preference leans toward the usual categories with more pwn and reversing, but this was also fun and different. I couldn't get any steganography due to a significant lack of experience in it, but the pwn/reversing challenges were definitely very interesting. :D
 
 ## Writeups
 
@@ -56,7 +60,7 @@ Challenge | Location Link | Explanation
 
 ## RSFPWS - Intercepted (Miscellaneous, 150 pts)
 
-## Description
+### Description
 
 Challenge instance ready at `193.57.159.27:35582`. Click here to request a new instance.  
 This challenge also has something on port 35582/udp
@@ -66,8 +70,7 @@ This game i'm playing is fun! There's this box that seemingly does nothing thoug
 
 ### Attachments
 
-[`windows_clinet.zip`](windows_clinet.zip)
-
+[`windows_clinet.zip`](windows_clinet.zip)  
 [`linux_client.zip`](linux_client.zip)
 
 ### Solution
@@ -193,13 +196,13 @@ After [painstakingly trying to figure out](ADsol.png) what this does, I think th
 int inp_array[33];
 int i = 0
 while(i < 100):
-  i += 1
-  fread(&seed, 4, 1, fopen("/dev/urandom", "r"))
-  srand(seed)
-  inp = input("Enter your guess> ")
-  ad_roll = rand() % 21
-  inp_array[i % 33] = inp
-  /* code checking if input is correct 31 consecutive times */
+    i += 1
+    fread(&seed, 4, 1, fopen("/dev/urandom", "r"))
+    srand(seed)
+    inp = input("Enter your guess> ")
+    ad_roll = rand() % 21
+    inp_array[i % 33] = inp
+    /* code checking if input is correct 31 consecutive times */
 ```
 
 I also noticed that the program always segfaults on the 32nd or 33rd input. That's strange. Looking at it from `gdb`, it crashes when it tries to call `fread` on file descriptor `0`, which means `fopen` returned `NULL`. And `fopen` seems to have tried to read from address that I had input previously.
@@ -359,8 +362,8 @@ The encrypter takes an input file and an output file, and works as such: it gets
 ```
 void rngNext32(int *param_1)
 {
-  *param_1 = *param_1 * 0x17433a5b + -0x481e7b5d;
-  return;
+    *param_1 = *param_1 * 0x17433a5b + -0x481e7b5d;
+    return;
 }
 ```
 (from ghidra)
@@ -398,5 +401,228 @@ Welp, apparently the flag wasn't that long.
 
 ### Flag
 ```
-'ractf{CL04K_3NGa6ed}
+ractf{CL04K_3NGa6ed}
 ```
+
+### Comments
+
+So I was wondering why it was named Lego Car Generator. The acronym LCG stands for [Linear Congruential Generator](https://en.wikipedia.org/wiki/Linear_congruential_generator), which is how this challenge generates the next random number.
+
+## Packed (Pwn/Reversing, 350 pts)
+
+### Description
+
+One of our team wants to use this Really Awesome Console Application, but they don't want to pay for it. Can you help them crack it and generate a license key for the username `John Smith`?
+
+### Attachment
+
+[`really awesome console application`](really awesome console application)
+
+### Solution
+
+This is an `.exe` file. Unfortunately, it's also my first time looking into anything that's not an `ELF` file. Putting into a disassembler, the first challenge is to find `main` function. I don't want to look at all of the functions, so let's try running the program instead.
+
+```
+Enter your name > John Smith
+Enter License Key > asdf
+Incorrect License key!
+Press any key to continue...
+```
+
+Ok. While the binary doesn't have the strings `"Enter your name > "` or  `"Enter License Key > "`, it does have `"Press any key to continue"` and `"Debugger detected!"` (there's also a [youtube link](https://www.youtube.com/watch?v=ub82Xb1C8os)). Going to the function that has those strings, it does indeed look like the main function we should look at.  
+The first thing we notice about this function is that there's a debugger check with `IsDebuggerPresent`. The second thing we notice is that there's a section doing some operation on a `0x3000` byte data section.
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/11196638/129649286-0b77b8b7-223a-473e-9b3f-7761f7669b9b.png"/>
+</p>
+
+Looks like a relatively simple operation - `xmm1` is `data_404340`, which is `b'\x05' * 16`, and `xmm2` is `data_404350`, which is `b'\x80' * 16`. So every byte of the data section starting at `0x406018` is subtracted by `0x05` and xor'd with `0x80`. Let's do that, and write it out to a file.
+```py
+from binascii import unhexlify, hexlify
+res = b''
+with open('raca_data406018', 'r') as f:
+    for line in f:
+        linea = line.strip().split()
+        linea = linea[1:9]
+        dataline = unhexlify(''.join(linea))
+        res += bytes(((b-0x05)&0xff)^0x80 for b in dataline)
+with open('raca_data_interpreted', 'wb') as ff:
+    ff.write(res)
+```
+The `xxd` output of the created file:
+```
+00000000: 4d5a 9000 0300 0000 0400 0000 ffff 0000  MZ..............
+00000010: b800 0000 0000 0000 4000 0000 0000 0000  ........@.......
+00000020: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000030: 0000 0000 0000 0000 0000 0000 f800 0000  ................
+00000040: 0e1f ba0e 00b4 09cd 21b8 014c cd21 5468  ........!..L.!Th
+00000050: 6973 2070 726f 6772 616d 2063 616e 6e6f  is program canno
+00000060: 7420 6265 2072 756e 2069 6e20 444f 5320  t be run in DOS
+00000070: 6d6f 6465 2e0d 0d0a 2400 0000 0000 0000  mode....$.......
+00000080: b94b 31fc fd2a 5faf fd2a 5faf fd2a 5faf  .K1..*_..*_..*_.
+```
+`MZ` is the magic number for the [`DOS MZ executable`](https://en.wikipedia.org/wiki/DOS_MZ_executable). So it's another `.exe` file. For some reason, the file created like this couldn't be run (and was flagged as a Trojan virus), but the code after that creates an temporary executable with name created by `tmpnam_s`, executes that temporary file, and removes it. So after executing it and leaving it to wait for the input, at `C:\Users\<username>\AppData\Local\Temp`, there was an executable that was created. Let's disassemble this one.
+
+In this file, we do see the strings `"Enter your name > "` or  `"Enter License Key > "`. It didn't look that hard to read through it, but I realized that the assembly code was too messy to actually figure out how it was generating the license key (with unpopped pushes and addresses relative to `esp` which was constantly being changed). The basic gist of the program was that it does the debugger check, saves that result somewhere, and gets the name and license key inputs; then, using the name and the result from the debugger, it does some operation to generate a license key. This generated key is compared to the license key that was input. From the format string, we know that the format of the license key will be `"RA-%d-%s"`.
+
+Since I couldn't really wrap my head around how this generator works, I decided to use a debugger ([x64dbg](https://x64dbg.com/#start)) and try to bypass the debugger check. The debugger check happens in the beginning, and during every loop of the generation of the license key (from the name and the result of the first debugger check).
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/11196638/129652720-22f419b3-fdd8-4e76-901d-b94bae55f405.png"/>
+</p>
+<p align="center">The debugger check</p>
+
+Because there were some other checks before the last one, and I didn't want to go through clicking and changing registers more than I needed to, I decided to set a breakpoint at `0x401099` and set `dl` to 0. This should pass the test. Then we can check the format-string result after the `vsprintf` call to see the license key that was generated. Now set the breakpoint and off we go!
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/11196638/129653120-e466fb50-abfa-405c-b27c-9a59d8b9c621.png"/>
+</p>
+<p align="center">Breakpoint at the last check in the debugger-check function</p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/11196638/129653480-8882a30a-150d-4d0a-903a-dfc05423f154.png"/>
+</p>
+<p align="center">The license key?</p>
+
+Now that we have the license key, let's check it through the program and submit it as the flag:
+
+![image](https://user-images.githubusercontent.com/11196638/129654816-78912e58-8f63-452e-8dce-9fd8da0bf096.png)
+
+Huh?
+
+(During the ctf, I actually submitted without checking, which is how I have 1 incorrect submission)
+
+Obviously something's wrong. Let's try going through the instructions step by step, in the debugger-check function.
+
+1. `IsDebuggerPresent` returns 0 to `eax` if there's no debugger.
+2. `test eax, eax; setne dl` will make `dl` 0, then store it into `ebp-0x19`.
+3. `al` is set to 0, 0 is moved to `ebp-0x4`, then `EFLAGS` is pushed, the trap flag (`0x100` of `EFLAGS`) is set on it, then popped; `ebp-0x4` is set to -2.
+4. `dl` is checked if it's 0. In the no-debugger case, it is, so it doesn't take the jump.
+5. Not taking the jump, `al` is 0 so `test al, al; sete dl` sets `dl` to 1.
+6. `dl` value is moved to `al`, xor'd with 1, then saved to `[esi]`.
+7. `dl` is not 0 at this point, so `test dl, dl; je 0x4010c6` does not jump, which prints `"Unauthorized software detected!"` and exits.
+
+What? The more I read through it, the more it didn't make sense. I checked with the debugger to see if my logic was right, by setting the breakpoint right after `IsDebuggerPresent` and setting `eax` to 0, then stepping through it. The logic was indeed correct, and no matter what the `IsDebuggerPresent` returned, it always resulted in `"Unauthorized software detected!"`. At this point, I said screw it and tried running it (instead of stepping through) after setting `eax` to 0...
+
+![image](https://user-images.githubusercontent.com/11196638/129656150-fd846a32-9e41-4149-bca7-b2036dcab9b4.png)
+
+and it worked! According to the sequential flow, it is impossible to have `edx` to be 0 at that point, but it somehow was. Stepping through it, however, still made `edx` 1. The reason the previous key was incorrect was that I should have set `eax` to 0 right after `IsDebuggerPresent`, because it stores that result and uses it later to compute the license key. Well, we now got it working, so we can get the flag.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/11196638/129656797-fd197327-7f9a-463d-a4b8-9bac4b7192dc.png"/>
+</p>
+<p align="center">The license key.</p>
+
+We can check its validity by putting it through our Really Awesome Console Application:
+
+![image](https://user-images.githubusercontent.com/11196638/129656934-5ce9b365-7d43-4874-9e47-e09cc2995f51.png)
+
+### Flag
+```
+ractf{RA-1100-JHRMT}
+```
+
+### Addendum
+
+After the ctf was over, the source code was posted on discord:
+
+```c++
+#include <iostream>
+#include <Windows.h>
+#include <random>
+
+bool performDebuggerChecks(bool* i) {
+    bool debuggerAttached = false;
+
+    debuggerAttached = IsDebuggerPresent();
+
+    bool exceptionFlag = false;
+    __try {
+        _asm {
+            pushfd
+            or dword ptr [esp], 0x100
+            popfd
+            nop
+        }
+    } __except(EXCEPTION_EXECUTE_HANDLER) {
+        exceptionFlag = true;
+    }
+
+    if (!debuggerAttached) { debuggerAttached = !exceptionFlag; }
+
+    *i = !debuggerAttached;
+
+    if (debuggerAttached) {
+        std::cout << "Unauthorized software detected!" << std::endl;
+        exit(1);
+    }
+
+    return debuggerAttached;
+}
+
+int main()
+{
+    bool i;
+    bool fake = performDebuggerChecks(&i);
+
+    std::cout << "Enter your name > ";
+    char name[64];
+    std::cin.get(name, 64);
+
+    std::cin.ignore();
+
+    std::cout << "Enter License key > ";
+    char key[64];
+    std::cin.get(key, 64);
+
+    int acc = 0;
+    char acc2[50];
+    memset(acc2, 0x00, 50);
+    int k = 0;
+
+    for (int i = 0; i < strlen(name); i++) {
+        if (i % 2 == performDebuggerChecks(&fake)) {
+            acc += 61;
+            acc2[k] = toupper((char)((((int)tolower(name[i] - 97)) % 25) + (96+fake)));
+            k++;
+        }
+        acc ^= (int)name[i];
+
+        acc += (int)name[strlen(name) - (i + fake + 1)];
+    }
+
+    char expected[50];
+    sprintf_s(expected, "RA-%d-%s", acc, acc2);
+    
+    for (int i = 0; i < strlen(expected); i++) {
+        if (expected[i] != key[i]) {
+            std::cout << "Incorrect license key!\n";
+            return 1;
+        }
+    }
+
+    std::cout << "Software unlocked! Thanks for your support.\n";
+}
+
+// fake is 1 if debugger NOT present
+```
+Our center of attention is here:
+```c++
+    debuggerAttached = IsDebuggerPresent();
+
+    bool exceptionFlag = false;
+    __try {
+        _asm {
+            pushfd
+            or dword ptr [esp], 0x100
+            popfd
+            nop
+        }
+    } __except(EXCEPTION_EXECUTE_HANDLER) {
+        exceptionFlag = true;
+    }
+
+    if (!debuggerAttached) { debuggerAttached = !exceptionFlag; }
+```
+Ok, it's a try-except thing. `dl` seems to be the `debuggerAttached` and `al` would be the `exceptionFlag`. Doing some more searching, I found [this](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/x86-architecture#x86-flags), [this](https://www.a1logic.com/2012/10/23/single-step-debugging-explained/), [this](https://anti-debug.checkpoint.com/techniques/assembly.html#popf_and_trap_flag), and [this](https://www.matteomalvica.com/blog/2020/04/10/x64-trap-flag-antidebugger/). This is another anti-debugging method; basically, when a trap flag is set, a single step exception is raised, which should be handled by a handler and unset before executing the next instruction. When a debugger single-steps through instructions or is set to handle the single step exception, the debugger will handle it and set the trap flag to 0; when running normally without the debugger handling it, the exception will be handled by the program if it exists, or crash. In our case, we need it to go through the exception handler within the program rather than the debugger, and that's why it only works when it runs without single-stepping. The `nop` is there because the exception is raised after the execution of one instruction (per the microsoft documentation in the first link).
+
+TIL. Very cool stuff.
