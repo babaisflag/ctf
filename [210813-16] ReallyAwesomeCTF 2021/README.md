@@ -91,7 +91,7 @@ Nice.
 
 ### Flag
 ```
-ractf_N3tw0rking_L`ke_4_B0ss!}
+ractf_N3tw0rking_L1ke_4_B0ss!}
 ```
 
 ## Call&Response (Miscellaneous, 200 pts)
