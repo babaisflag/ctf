@@ -416,7 +416,7 @@ One of our team wants to use this Really Awesome Console Application, but they d
 
 ### Attachment
 
-[`really awesome console application`](really awesome console application)
+[`really_awesome_console_application.exe`](really awesome console application)
 
 ### Solution
 
@@ -461,7 +461,7 @@ The `xxd` output of the created file:
 00000070: 6d6f 6465 2e0d 0d0a 2400 0000 0000 0000  mode....$.......
 00000080: b94b 31fc fd2a 5faf fd2a 5faf fd2a 5faf  .K1..*_..*_..*_.
 ```
-`MZ` is the magic number for the [`DOS MZ executable`](https://en.wikipedia.org/wiki/DOS_MZ_executable). So it's another `.exe` file. For some reason, the file created like this couldn't be run (and was flagged as a Trojan virus), but the code after that creates an temporary executable with name created by `tmpnam_s`, executes that temporary file, and removes it. So after executing it and leaving it to wait for the input, at `C:\Users\<username>\AppData\Local\Temp`, there was an executable that was created. Let's disassemble this one.
+`MZ` is the magic number for the [`DOS MZ executable`](https://en.wikipedia.org/wiki/DOS_MZ_executable). So it's another `.exe` file. For some reason, the file created like this couldn't be run (and was flagged as a Trojan virus), but the code after that creates an temporary executable with name created by `tmpnam_s`, executes that temporary file, and removes it. So after executing it and leaving it to wait for the input, at `C:\Users\<username>\AppData\Local\Temp`, there was an [executable](u73k.0.exe) that was created. Let's disassemble this one.
 
 In this file, we do see the strings `"Enter your name > "` or  `"Enter License Key > "`. It didn't look that hard to read through it, but I realized that the assembly code was too messy to actually figure out how it was generating the license key (with unpopped pushes and addresses relative to `esp` which was constantly being changed). The basic gist of the program was that it does the debugger check, saves that result somewhere, and gets the name and license key inputs; then, using the name and the result from the debugger, it does some operation to generate a license key. This generated key is compared to the license key that was input. From the format string, we know that the format of the license key will be `"RA-%d-%s"`.
 
