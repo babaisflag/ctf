@@ -34,93 +34,93 @@ Speedrun | Pwn | 200 | 61
 
 ## Discord (Misc, 15 pts)
 
-**Description**
+### Description
 
 Join our Discord server! We can provide support for challenge issues there, AND we have practice challenges everyday when this CTF isn't running. Join at https://discord.gg/ctf .
 
-**Attachment**
+### Attachment
 
 `https://discord.gg/ctf`
 
-**Solution**
+### Solution
 
 Join discord; flag is at the `#imaginaryctf-2021` channel. Free 15 points.
 
-**Flag**
+### Flag
 ```
 ictf{d41ly_ch4lls_0n_d1sc0rd_AND_4_ctf?_epic}
 ```
 
 ## Sanity Check (Misc, 15 pts)
 
-**Description**
+### Description
 
 Welcome to ImaginaryCTF! All flags are written in flag format `ictf{.*}` unless otherwise stated. Have fun and enjoy the challenges!
 
-**Attachment**
+### Attachment
 
 `ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}`
 
-**Solution**
+### Solution
 
 Submit the flag. Another free 15 points.
 
-**Flag**
+### Flag
 ```
 ictf{w3lc0m3_t0_1m@g1nary_c7f_2021!}
 ```
 
 ## Chicken Caesar Salad (Crypto, 50 pts)
 
-**Description**
+### Description
 
 I remember the good old days when Caesar ciphers were easy…
 
-**Attachment**
+### Attachment
 
 [`chicken-caesar-salad.txt`](_Attachments/chicken-caesar-salad.txt)
 
-**Solution**
+### Solution
 
 Go to any caesar cipher decoder (dcode.fr, for instance) and try all 25 combinations; the one with `ictf` as the first four letters is the flag.
 
-**Flag**
+### Flag
 ```
 ictf{wHen_dID_cAEseR_cIphERs_gEt_sO_hARd}
 ```
 
 ## Hidden (Forensics, 50 pts)
 
-**Description**
+### Description
 
 Oh no, someone hid my flag behind a giant red block! Please help me retrieve it!!
 
-**Attachment**
+### Attachment
 
 [`challenge.psd`](_Attachments/challenge.psd)
 
-**Solution**
+### Solution
 
 `.psd` is a photoshop document file. Go to any editor (photopea.com, for instance) and open challenge.psd, then drag the red block to reveal the flag.
 
 Or do `strings challenge.psd | grep ictf` to get the flag.
 
-**Flag**
+### Flag
 ```
 ictf{wut_how_do_you_see_this}
 ```
 
 ## stackoverflow (Pwn, 50 pts)
 
-**Description**
+### Description
 
 Welcome to Stack Overflow! Get answers to all your programming questions right here!
 
-**Attachment**
+### Attachment
 
 [`stackoverflow`](_Attachments/stackoverflow)
 
-**Solution**
+### Solution
 
 Classic stack overflow; let's look at the disassembly.
 
@@ -138,22 +138,22 @@ $ cat flag.txt
 ictf{4nd_th4t_1s_why_y0u_ch3ck_1nput_l3ngth5_486b39aa}
 ```
 
-**Flag**
+### Flag
 ```
 ictf{4nd_th4t_1s_why_y0u_ch3ck_1nput_l3ngth5_486b39aa}
 ```
 
 ## Fake Canary (Pwn, 100 pts)
 
-**Description**
+### Description
 
 Here at Stack Smasher Inc, we protect all our stacks with industry grade canaries!
 
-**Attachment**
+### Attachment
 
 [`fake_canary`](_Attachments/fake_canary)
 
-**Solution**
+### Solution
 
 Checksec: 
 ```
@@ -183,26 +183,26 @@ p.interactive()
 
 spawns a shell.
 
-**Comments**
+### Comments
 
 It kept segfaulting while trying to reproduce the solution - while correctly getting to `system('/bin/sh')`, it crashed at an instruction `movaps`. Apparently this instruction has to be aligned to [16-byte boundary](https://c9x.me/x86/html/file_module_x86_id_180.html), and surely enough `$rsp` was not aligned to 16 bytes. Adding a `ret` gadget before returning to `win` solved that issue. I wonder how they avoided it in the actual challenge...
 
-**Flag**
+### Flag
 ```
 ictf{m4ke_y0ur_canaries_r4ndom_f492b211}
 ```
 
 ## Flip Flops (Crypto, 100 pts)
 
-**Description**
+### Description
 
 Yesterday, Roo bought some new flip flops. Let's see how good at flopping you are.
 
-**Attachment**
+### Attachment
 
 [`flop.py`](_Attachments/flop.py)
 
-**Solution**
+### Solution
 
 Our input is encrypted and decrypted via AES-CBC. I don't know much about encryption, but reading through the [Wikipedia page](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)), the encryption and decryption process involves xor'ing the previous block (16 bytes) of ciphertext with the next block of plaintext/decrypted text. Since the key and IV are initialized before the `for` loop, we have 3 chances to encrypt/decrypt with the same key and IV. Our objective is to recover 'gimmeflag' from the ciphertext without directly encrypting 'gimmeflag'.
 
@@ -256,26 +256,26 @@ Send me a string that when decrypted contains 'gimmeflag'.
 ```
 (the last bit of the 16th byte `0x6f` is flipped to `0x6e`)
 
-**Comments**
+### Comments
 
 It seems that the encryption appends the IV at the end of the ciphertext; the ciphertext can be fully recovered without the last block.
 
-**Flag**
+### Flag
 ```
 ictf{fl1p_fl0p_b1ts_fl1pped_b6731f96}
 ```
 
 ## Formatting (Misc, 100 pts)
 
-**Description**
+### Description
 
 Wait, I thought format strings were only in C???
 
-**Attachment**
+### Attachment
 
 [`stonks.py`](_Attachments/stonks.py)
 
-**Solution**
+### Solution
 
 As suggested by the name of the challenge and the description, the python code has a format string to our input: `inp.format(a=stonkgenerator())`. Python functions have a `__globals__` attribute ([documentation](https://docs.python.org/3/reference/datamodel.html#the-standard-type-hierarchy)), which is a dictionary holding the global variables of the function. Since `stonkgenerator` is a class with `__init__` and `__str__` methods, we can use those to get access to the global variable `flag`.
 
@@ -298,7 +298,7 @@ ictf{c4r3rul_w1th_f0rmat_str1ngs_4a2bd219}
 
 ```
 
-**Flag**
+### Flag
 
 ```
 ictf{c4r3rul_w1th_f0rmat_str1ngs_4a2bd219}
@@ -306,17 +306,17 @@ ictf{c4r3rul_w1th_f0rmat_str1ngs_4a2bd219}
 
 ## Spelling Test (Misc, 100 pts)
 
-**Description**
+### Description
 
 I made a spelling test for you, but with a twist. There are several words in words.txt that are misspelled by one letter only. Find the misspelled words, fix them, and find the letter that I changed. Put the changed letters together, and you get the flag. Make sure to insert the "{}" into the flag where it meets the format.
 
 NOTE: the words are spelled in American English
 
-**Attachment**
+### Attachment
 
 [`words.txt`](_Attachments/words.txt)
 
-**Solution**
+### Solution
 
 Using `PyEnchant` for the dictionary, get a list of words with typos and a list of suggested fix; `diff` the two lists with `difflib`.
 
@@ -354,24 +354,24 @@ ictfyoupassedthyrspelelingtest
 
 Something seems off. Looking at the list, it seems that 'yorkshere' became 'worksheet', and 'enquiries' was incorrectly flagged as a typo; 'yorkshere' should become 'yorkshire', so in place of 'yr' should be an 'e'. An extra 'e' between the 'l's should not be there as well. Fixing those issues, we get: `ictfyoupassedthespellingtest`
 
-**Flag**
+### Flag
 ```
 ictf{youpassedthespellingtest}
 ```
 
 ## Stings (Reversing, 100 pts)
 
-**Description**
+### Description
 
 Enter the beehive. Don't get stung.
 
 (Note: the password/flag is in the format ictf{.*})
 
-**Attachment**
+### Attachment
 
 [`stings`](_Attachments/stings)
 
-**Solution**
+### Solution
 
 There's only one function, `main`.
 
@@ -379,22 +379,22 @@ There's only one function, `main`.
 
 There's some string on the stack from `rbp-0x1110`, and our input is stored at `rbp-0x1210`; the loop compares our input to the stored string, character by character, but it subtracts 1 from the character of the stored string before comparing. Doing so gives us the flag.
 
-**Flag**
+### Flag
 ```
 ictf{str1ngs_4r3nt_h1dd3n_17b21a69}'
 ```
 
 ## Vacation (Forensics, 100 pts)
 
-**Description**
+### Description
 
 Roo's cousin was on vacation, but he forgot to tell us where he went! But he posted this image on his social media. Could you track down his location? Submit your answer as ictf{latitude_longitude}, with both rounded to 3 decimal places. Example: ictf{-12.345_42.424} (Note: only the image is needed for this challenge, as this is an OSINT challenge.)
 
-**Attachment**
+### Attachment
 
 [`image.jpg`](_Attachments/image.jpg)
 
-**Solution**
+### Solution
 
 ![Vacation Image](_Attachments/image.jpg)
 
@@ -406,24 +406,23 @@ Searching 'city of south lake tahoe sugar pine bakery' in google maps, we do ind
 
 ![Google Maps Image](_Images/vacation.PNG)
 
-**Flag**
+### Flag
 ```
 ictf{38.947_-119.961}
 ```
 
 ## Lines (Crypto, 150 pts)
 
-**Description**
+### Description
 
 Try to crack my unbreakable™ encryption! I based it off of the Diffie-Helman key exchange!
 
-**Attachments**
+### Attachments
 
-[`lines.py`](_Attachments/lines.py)
-
+[`lines.py`](_Attachments/lines.py)  
 [`out.txt`](_Attachments/out.txt)
 
-**Solution**
+### Solution
 
 The `encrypt` function is just `s * msg % p`; since we know the original message for the `:roocursion:` message, we can find out `s` by taking the modular multiplicative inverse, and then use that `s` to figure out the flag.
 
@@ -444,24 +443,24 @@ flag = inv_s*encrypted_flag % p # 0x696374667b6d30645f34723174685f6674775f316339
 print(unhexlify(hex(flag)[2:]))
 ```
 
-**Flag**
+### Flag
 ```
 ictf{m0d_4r1th_ftw_1c963241}
 ```
 
 ## Normal (Reversing, 150 pts)
 
-**Description**
+### Description
 
 Norse senor snorts spores, abhors non-nors, adores s'mores, and snores.
 
-**Attachments**
+### Attachments
 
 [`normal.v`](_Attachments/normal.v)
 
 [`Makefile`](_Attachments/Makefile)
 
-**Solution**
+### Solution
 
 Looking into the given [verilog](https://en.wikipedia.org/wiki/Verilog#:~:text=Verilog%2C%20standardized%20as%20IEEE%201364,register%2Dtransfer%20level%20of%20abstraction.&text=Since%20then%2C%20Verilog%20is%20officially%20part%20of%20the%20SystemVerilog%20language.) file, the main function has a `flag` variable that's 256 bits long, and a `wrong` variable that is also 256 bits long. `normal flagchecker(wrong, flag)` is called, and if `wrong` is 0, it will be display "Correct!". So we need to make `wrong` 0.
 
@@ -482,24 +481,23 @@ In : binascii.unhexlify(hex(c1^c2^0xffffffffffffffffffffffffffffffffffffffffffff
 Out: b'ictf{A11_ha!1_th3_n3w_n0rm_n0r!}'
 ```
 
-**Flag**
+### Flag
 ```
 ictf{A11_ha!1_th3_n3w_n0rm_n0r!}
 ```
 
 ## The First Fit (Pwn, 150 pts)
 
-**Description**
+### Description
 
 Let's get started with a simple heap exploit!
 
-**Attachments**
+### Attachments
 
-[`the_first_fit`](_Attachments/the_first_fit)
-
+[`the_first_fit`](_Attachments/the_first_fit)  
 [`the_first_fit.c`](_Attachments/the_first_fit.c)
 
-**Solution**
+### Solution
 
 Looking at the source code, `a` is already malloc'd, and we have 4 options:
     1. Malloc; malloc 128 bytes, and assign it to a or b
@@ -553,24 +551,228 @@ $
 
 and voila, we have the shell.
 
-**Flag**
+### Flag
 ```
 ictf{w3lc0me_t0_h34p_24bd59b0}
 ```
 
-## Jumprope | Reversing | 200
+## Jumprope (Reversing, 200 pts)
+
+### Description
+
+CENSORED and CENSORED Sitting in a tree, H-A-C-K-I-N-G! First comes pwn, Then comes rev, Then comes a flag And a happy dev!
+
+### Attachment
+
+[`jumprope`](_Attachments/jumprope)
+
+### Solution
+
+Checksec:
+```
+Arch:     amd64-64-little
+RELRO:    Partial RELRO
+Stack:    No canary found
+NX:       NX enabled
+PIE:      No PIE (0x400000)
+```
+```
+$ ./jumprope
+Ice cream!
+Soda Pop!
+Cherry on top!
+Is your flag exact?
+Well, let's find out!
+
+Eighty-eight characters!
+A secret well kept!
+If you get it right,
+I'll shout CORRECT!
+
+>>>
+```
+Looks like the correct flag input will make it shout CORRECT. In the disassembly, we see `main`, `checkFlag`, `next`, `test`, `c`, `o`, `r`, `e`, `t`. The single-lettered functions simply print out its respective characters, i.e. `c` prints out `'C'`. The `o` and `t` functions, before printing, check if `edi` is `0x1337c0d3` and `0xdeadface`, respectively. Already feels like ROP.
+
+The `main` simply prints the console output in the beginning, and calls `checkflag`. From the disassembly, I constructed a pseudocode:
+```
+val = 2
+dead = 0
+count = 0
+x = <some big bytestring>
+
+def test(a):	// test if prime; return 1 if prime, return 0 if composite
+	if (a != 1):
+		vc = 2
+		while (vc < a-1):
+			if (a % vc != 0):
+				vc++
+			else:
+				return 0
+		return 1
+	return 0
+
+def next(val):
+	for(c = 0; c <= 7; c++):
+		v18 = 0
+		v20 = val
+		for(i = 0; i <= 7; i++):
+			a = i+1
+			if(test(a) != 0):
+				a = v20
+				a &= 1
+				v18 ^= a
+			v20 = v20 >> 1
+		val = val >> 1
+		a = v18 << 7
+		val += a
+	return val
+	
+def checkflag():
+	&ret = rbp+8;
+	scanf("%88s%c", &ret, &dead)
+	count = 8
+	for (; count <= 95; count++):
+		val = next(val)
+		ecx= *(char*)(rbp+count)	// our input
+		rdx = x[(count-8)*8] // indexed by bytes
+		edx = val^edx^ecx
+		*(rbp+count) = edx
+	return 0
+```
+`x` is some big data region, that has a non-zero byte every 8 bytes from index 0. Concatenating all the non-zero bytes gives `x = 0xfd3cc40e76ff4b451f40f4e680b8b5e8768e3bf8e4bdc9c73fe6cf15949a8a284e5e1e3f25d42ca936284240938d0fffae2b2bdf7e1a4e0563d088e1a11f5a3d364fae897bd727d029c09ef020df697794e9580fb8ecf924`.
+
+`test` function simply checks if the number is prime by trying division of every positive integer less than the given number. `next` function gets the next value with some bitwise operations. `checkflag` xor's a byte from our input, a non-zero byte from `x`, and the `val` from `next(val)`. `val` is 2 initially. At every loop, it writes the byte to `rbp+count`, where `count` starts from 8 and increases by 1. So this *is* a ROP, we just write return addresses for the functions in the order `c`, `o`, `r`, `r`, `e`, `c`, `t`. For `o` and `t`, we need to put two more values on the stack: `pop rdi; ret` gadget and the values that need to go into `rdi`.
+```py
+# getting "pop rdi; ret" gadget
+In  : from pwn import *
+    : ROP(ELF('./jumprope')).rdi
+Out : Gadget(0x40148b, ['pop rdi', 'ret'], ['rdi'], 0x8)
+```
+Then we can get the full ropchain:
+```py
+from pwn import *
+c = 0x401211
+o = 0x40122e
+r = 0x40125b
+e = 0x401278
+t = 0x401295
+rdi_ret = ROP(ELF('./jumprope')).rdi[0]
+o_input = 0x1337c0d3
+t_input = 0xdeadface
+jumprope = p64(c)+p64(rdi_ret)+p64(o_input)+p64(o)+p64(r)+p64(r)+p64(e)+p64(c)+p64(rdi_ret)+p64(t_input)+p64(t)
+```
+Finally we need to get the value `val`, simply by translating the pseduocode into python:
+```py
+# get val
+val = 2
+
+def test(a):
+    if a != 1:
+        factor = 2
+        while factor < a-1:
+            if a % factor != 0:
+                factor += 1
+            else:
+                return 0
+        return 1
+    return 0
+
+def next(val):
+    for c in range(8):
+        v18 = 0
+        v20 = val
+        for i in range(8):
+            a = i+1
+            if test(a) != 0:
+                a = v20
+                a &= 1
+                v18 ^= a
+            v20 = v20 >> 1
+        val = val >> 1
+        a = v18 << 7
+        val += a
+    return val
+
+val_res = b''
+for counter in range(88):
+    val = next(val)
+    va_res += val.to_bytes(1, 'little')
+```
+The result of the execution of `./jumprope` is our ropchain, which is `x ^ val_res ^ flag`, where `flag` is our input. We want to get the flag, so `flag = jumprope ^ val_res ^ x`.
+
+Full code:
+```py
+from pwn import ROP, ELF, p64
+# get val
+def test(a):
+    if a != 1:
+        factor = 2
+        while factor < a-1:
+            if a % factor != 0:
+                factor += 1
+            else:
+                return 0
+        return 1
+    return 0
+
+def next(val):
+    for c in range(8):
+        v18 = 0
+        v20 = val
+        for i in range(8):
+            a = i+1
+            if test(a) != 0:
+                a = v20
+                a &= 1
+                v18 ^= a
+            v20 = v20 >> 1
+        val = val >> 1
+        a = v18 << 7
+        val += a
+    return val
+
+val = 2
+val_res = b''
+for counter in range(88):
+    val = next(val)
+    val_res += val.to_bytes(1, 'little')
+
+c = 0x401211
+o = 0x40122e
+r = 0x40125b
+e = 0x401278
+t = 0x401295
+rdi_ret = ROP(ELF('./jumprope')).rdi[0]
+o_input = 0x1337c0d3
+t_input = 0xdeadface
+jumprope = p64(c)+p64(rdi_ret)+p64(o_input)+p64(o)+p64(r)+p64(r)+p64(e)+p64(c)+p64(rdi_ret)+p64(t_input)+p64(t)
+
+x = 0xfd3cc40e76ff4b451f40f4e680b8b5e8768e3bf8e4bdc9c73fe6cf15949a8a284e5e1e3f25d42ca936284240938d0fffae2b2bdf7e1a4e0563d088e1a11f5a3d364fae897bd727d029c09ef020df697794e9580fb8ecf924.to_bytes(88, 'big')
+
+flag = bytes([j^v^x_ for (j,v,x_) in zip(jumprope, val_res, x)])
+print(flag)
+```
+```
+$ python3 jumprope.py
+b'ictf{n0t_last_night_but_the_night_bef0re_twenty_f0ur_hackers_came_a_kn0cking_at_my_d00r}'
+```
+
+### Flag
+```
+ictf{n0t_last_night_but_the_night_bef0re_twenty_f0ur_hackers_came_a_kn0cking_at_my_d00r}
+```
 
 ## No Thoughts, Head Empty (Reversing, 200 pts)
 
-**Description**
+### Description
 
 When I was making Roolang, of course I took a look at the mother of all esolangs! So, have some bf code. Run it here (https://copy.sh/brainfuck/) with 32 bit cells and dynamic memory enabled. Run the program to get the flag, and then some.
 
-**Attachment**
+### Attachment
 
 [`flag_min.bf`](_Attachments/flag_min.bf)
 
-**Solution**
+### Solution
 
 If we run the given code at the linked website, we get:
 
@@ -598,7 +800,7 @@ fixed:
 
 Result is the flag.
 
-**Flag**
+### Flag
 ```
 ictf{0n3_ch@r@ct3r_0f_d1f3r3nce}
 ```
