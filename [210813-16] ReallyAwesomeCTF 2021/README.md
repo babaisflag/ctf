@@ -26,7 +26,7 @@ Challenge | Category | Points | Solves | Comments
 
 ## Afterthoughts
 
-This was my second time participating in a CTF. This one was really different from the previous one and the other ones that I've seen, because the usual categories are Web, Pwn, Reversing, Crypto, and Miscellaneous (which usually includes OSINT, forensics, or stego). This time, pwn/reversing (and crypto, although not specifically in the name) were all combined into one category, and Miscellaneous, OSINT, and Steganography got their own categories. My personal preference leans toward the usual categories with more pwn and reversing, but this was also fun and different. I couldn't get any steganography due to a significant lack of experience in it, but the pwn/reversing challenges were definitely very interesting. :D
+This was my second time participating in a CTF. This one was really different from the previous one and the other ones that I've seen, because the usual categories are Web, Pwn, Reversing, Crypto, and Miscellaneous (which usually includes OSINT, forensics, or stego). This time, pwn/reversing (and crypto, although not specifically in the name) were all combined into one category, and Miscellaneous, OSINT, and Steganography got their own categories. My personal preference leans toward the usual categories with more pwn and reversing, but this was also fun and different. I couldn't get any steganography due to a significant lack of experience in it, but the pwn/reversing challenges were definitely really awesome. :D
 
 ## Writeups
 
@@ -38,7 +38,7 @@ Come join our [Discord](https://discord.gg/Rrhdvzn)!
 
 ### Solution
 
-I swear I spent way too much time on it because I looked at all the channel descriptions *except for* #general channel. I still don't know how I missed it for so long. But here it is:
+I swear I spent way too much time on it because I looked at all the channel descriptions *except* for the `#general` channel. I still don't know how I missed it for so long. But here it is:
 
 ![image](https://user-images.githubusercontent.com/11196638/129629365-f4a05b69-ebde-4cbb-884b-a1e624815a18.png)
 
@@ -160,7 +160,7 @@ $ .
 
 Huh? What does a `.` do? Apparently it's a [`source`](https://ss64.com/bash/source.html) command that executes commands from the input file. Interesting.
 
-We still don't know what we have in the current directory. Fortunately, we have a poor-man's `ls`: [`echo *`](https://superuser.com/questions/901183/who-deals-with-the-star-in-echo)
+We still don't know what we have in the current directory. Fortunately, we have a poor-man's `ls`: [`echo *`](https://superuser.com/questions/901183/who-deals-with-the-star-in-echo).
 
 ```
 $ echo *
@@ -190,7 +190,7 @@ Man, the final boss of this game is kickin' my ass! Can you give me a hand?
 
 ### Solution
 
-After [painstakingly trying to figure out](ADsol.png) what this does, I think this is what the program is doing (please bear with me writing pseudocode in python + c):
+After [painstakingly trying to figure out](ADsol.png) what this does, I think this is what the program is doing (please bear with my writing pseudocode in python + c):
 
 ```
 int inp_array[33];
@@ -205,7 +205,7 @@ while(i < 100):
     /* code checking if input is correct 31 consecutive times */
 ```
 
-I also noticed that the program always segfaults on the 32nd or 33rd input. That's strange. Looking at it from `gdb`, it crashes when it tries to call `fread` on file descriptor `0`, which means `fopen` returned `NULL`. And `fopen` seems to have tried to read from address that I had input previously.
+I also noticed that the program always segfaults on the 32nd or 33rd input. That's strange. Let's put it through `gdb`; it crashes when it tries to call `fread` on file descriptor `0`, which means `fopen` returned `NULL`. And `fopen` seems to have tried to read from address that I had input previously.
 
 Looking into it a little more:
 
@@ -215,7 +215,7 @@ Looking into it a little more:
 
 So the 32nd input will write at `ebp-0x10`, where it used to have the address of `'/dev/urandom'`, replacing it with out input. 4-bytes from `/dev/urandom` are used as the seed to `srand` every loop, so if we can overwrite it with an existing file that is not random, we can seed random with the same value everytime. For this, I chose `'flag.txt'` within the file, which is at `0x8048bb9`. Luckily, the binary has no PIE.
 
-At this point, it's trivial; on the 32nd input, we give `134515641` (the decimal value for `0x8048bb9`), and figure out what "random" value it produces (it produced 11); then, rerun the program, give the same 32nd input, and repeat that "random" value 31 times. As a side note, unlike the output which seems to require 50 consecutive correct inputs, the actual code only checks 31 times.
+At this point, it's trivial; on the 32nd input, we give `134515641` (the decimal value for `0x8048bb9`), and figure out what "random" value it produces (it produced 11); then, rerun the program, give the same 32nd input, and repeat that "random" value 31 times. As a side note, unlike the output which seems like it requires 50 consecutive correct inputs, the actual code only checks the input 31 times.
 
 ```py
 import pwn
@@ -406,7 +406,7 @@ ractf{CL04K_3NGa6ed}
 
 ### Comments
 
-So I was wondering why it was named Lego Car Generator. The acronym LCG stands for [Linear Congruential Generator](https://en.wikipedia.org/wiki/Linear_congruential_generator), which is how this challenge generates the next random number.
+So I was wondering why it was named Lego Car Generator. The acronym LCG stands for [Linear Congruential Generator](https://en.wikipedia.org/wiki/Linear_congruential_generator), which is how `rngNext32` generates the next random number.
 
 ## Packed (Pwn/Reversing, 350 pts)
 
@@ -463,25 +463,25 @@ The `xxd` output of the created file:
 ```
 `MZ` is the magic number for the [`DOS MZ executable`](https://en.wikipedia.org/wiki/DOS_MZ_executable). So it's another `.exe` file. For some reason, the file created like this couldn't be run (and was flagged as a Trojan virus), but the code after that creates an temporary executable with name created by `tmpnam_s`, executes that temporary file, and removes it. So after executing it and leaving it to wait for the input, at `C:\Users\<username>\AppData\Local\Temp`, there was an [executable](u73k.0.exe) that was created. Let's disassemble this one.
 
-In this file, we do see the strings `"Enter your name > "` or  `"Enter License Key > "`. It didn't look that hard to read through it, but I realized that the assembly code was too messy to actually figure out how it was generating the license key (with unpopped pushes and addresses relative to `esp` which was constantly being changed). The basic gist of the program was that it does the debugger check, saves that result somewhere, and gets the name and license key inputs; then, using the name and the result from the debugger, it does some operation to generate a license key. This generated key is compared to the license key that was input. From the format string, we know that the format of the license key will be `"RA-%d-%s"`.
+In this file, we do see the strings `"Enter your name > "` or  `"Enter License Key > "`, the function containing those looks like the main function. It didn't seem that hard to read through it, but the assembly code was too messy to actually figure out how it was generating the license key (with unpopped pushes and addresses relative to `esp` which was constantly being changed). The basic gist of the program was that it does the debugger check, saves that result somewhere, and gets the name and license key inputs; then, using the name and the result from the debugger check, it does some operation to generate a license key. This generated key is compared to the license key that was input. From the format string, we know that the format of the license key will be `"RA-%d-%s"`.
 
 Since I couldn't really wrap my head around how this generator works, I decided to use a debugger ([x64dbg](https://x64dbg.com/#start)) and try to bypass the debugger check. The debugger check happens in the beginning, and during every loop of the generation of the license key (from the name and the result of the first debugger check).
 <p align="center">
   <img src="https://user-images.githubusercontent.com/11196638/129652720-22f419b3-fdd8-4e76-901d-b94bae55f405.png"/>
 </p>
-<p align="center">The debugger check</p>
+<p align="center"><i>The debugger check</i></p>
 
 Because there were some other checks before the last one, and I didn't want to go through clicking and changing registers more than I needed to, I decided to set a breakpoint at `0x401099` and set `dl` to 0. This should pass the test. Then we can check the format-string result after the `vsprintf` call to see the license key that was generated. Now set the breakpoint and off we go!
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/11196638/129653120-e466fb50-abfa-405c-b27c-9a59d8b9c621.png"/>
 </p>
-<p align="center">Breakpoint at the last check in the debugger-check function</p>
+<p align="center"><i>Breakpoint at the last check in the debugger-check function</i></p>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/11196638/129653480-8882a30a-150d-4d0a-903a-dfc05423f154.png"/>
 </p>
-<p align="center">The license key?</p>
+<p align="center"><i>The license key?</i></p>
 
 Now that we have the license key, let's check it through the program and submit it as the flag:
 
@@ -505,12 +505,12 @@ What? The more I read through it, the more it didn't make sense. I checked with 
 
 ![image](https://user-images.githubusercontent.com/11196638/129656150-fd846a32-9e41-4149-bca7-b2036dcab9b4.png)
 
-and it worked! According to the sequential flow, it is impossible to have `edx` to be 0 at that point, but it somehow was. Stepping through it, however, still made `edx` 1. The reason the previous key was incorrect was that I should have set `eax` to 0 right after `IsDebuggerPresent`, because it stores that result and uses it later to compute the license key. Well, we now got it working, so we can get the flag.
+and it worked! According to the sequential flow, it's impossible to have `dl` to be 0 at that point, but it somehow was. Stepping through it, however, still set `dl` to 1. The reason the previous key was incorrect was that I should have set `eax` to 0 right after `IsDebuggerPresent`, because it stores that result and uses it later to compute the license key. Well, we now got it working, so we can get the flag.
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/11196638/129656797-fd197327-7f9a-463d-a4b8-9bac4b7192dc.png"/>
 </p>
-<p align="center">The license key.</p>
+<p align="center"><i>The license key.</i></p>
 
 We can check its validity by putting it through our Really Awesome Console Application:
 
@@ -624,5 +624,7 @@ Our center of attention is here:
     if (!debuggerAttached) { debuggerAttached = !exceptionFlag; }
 ```
 Ok, it's a try-except thing. `dl` seems to be the `debuggerAttached` and `al` would be the `exceptionFlag`. Doing some more searching, I found [this](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/x86-architecture#x86-flags), [this](https://www.a1logic.com/2012/10/23/single-step-debugging-explained/), [this](https://anti-debug.checkpoint.com/techniques/assembly.html#popf_and_trap_flag), and [this](https://www.matteomalvica.com/blog/2020/04/10/x64-trap-flag-antidebugger/). This is another anti-debugging method; basically, when a trap flag is set, a single step exception is raised, which should be handled by a handler and unset before executing the next instruction. When a debugger single-steps through instructions or is set to handle the single step exception, the debugger will handle it and set the trap flag to 0; when running normally without the debugger handling it, the exception will be handled by the program if it exists, or crash. In our case, we need it to go through the exception handler within the program rather than the debugger, and that's why it only works when it runs without single-stepping. The `nop` is there because the exception is raised after the execution of one instruction (per the microsoft documentation in the first link).
+
+And, as per the comment `// fake is 1 if debugger NOT present`, it generates a fake flag when there's a debugger stepping through it.
 
 TIL. Very cool stuff.
