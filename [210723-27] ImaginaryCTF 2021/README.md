@@ -4,7 +4,7 @@ ImaginaryCTF 2021, from July 23 4PM - July 27 4PM (UTC).
 
 ## Overview
 
-(writeups to challenges are linked here, arranged by points)
+Writeups to challenges are linked here, arranged by points.
 
 Challenge | Category | Points | Solves | Comments
 --------- | -------- | ------ | ------ | --------
@@ -23,12 +23,20 @@ Challenge | Category | Points | Solves | Comments
 [Lines](#lines-crypto-150-pts) | Crypto | 150 | 128
 [Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
 [The First Fit](#the-first-fit-pwn-150-pts) | Pwn | 150 | 139
-Jumprope | Reversing | 200 | 47
+[Jumprope](Jumprope) | Reversing | 200 | 47
 [No Thoughts, Head Empty](#no-thoughts-head-empty-reversing-200-pts) | Reversing | 200 | 101
 [linonophobia](Linonophobia) | Pwn | 200 | 70
-Speedrun | Pwn | 200 | 61
+[Speedrun](Speedrun) | Pwn | 200 | 61
 [Abnormal](Abnormal) | Reversing | 250 | 28 | verilog
 [It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!) | Reversing | 250 | 34
+
+## Afterthoughts
+
+This was my first legitimate attempt at a CTF. My first ever attempt was the [Real World CTF](https://ctftime.org/event/1198/) this January. Suffice to say, it did not go well - it was even before I took the intro to computer systems course, and I knew nothing about binary, linking, loading, shellcoding, etc. The only thing I knew was a little bit of x86 assembly from [open security training](https://opensecuritytraining.info/IntroX86.html) (which was a great lecture, by the way; they got a [new website](https://ost2.fyi/), go check it out!), and looking back, it was a really difficult CTF, so it was obviously a failure. I only solved the checkin one, and even that took a long time.
+
+Since then, I did finish the ICS course and also went through half of [pwn.college](pwn.college), and while I'm still very much a newb, I was very happy to be able to actually solve some of the challenges in pwn and reversing. I still have 0 experience on anything else, so I still have a very long way to go, but it was very fun nonetheless. Part of it is that this ctf was pretty beginner-friendly, so that helped.
+
+Long story short, if you're doing ctf for the first time and don't really know much, learn from my mistake and try to do an easier ctf. But also I guess feeling very powerless in the Real World CTF kind of motivated me to try to learn more, so it helped in some way? Yeah. I don't know. Anyway, thanks Imaginary CTF for a great one, looking forward to next year too!
 
 ## Writeups
 
