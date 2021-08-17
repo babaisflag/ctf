@@ -267,7 +267,9 @@ One of our most senior engineers wrote this database code, it's super well comme
 
 ### Solution
 
-We're conveniently given the source code. Reading through it, there's a `GOD` role with the value of `0xBEEFCAFE`; when `users_register_user` is called, if  the `admin` is `ROLE_GOD`, then it will print out the flag. While the only input we give is the user to register, we can also see that the input username is 30 characters long, whereas the `User` struct has `name[USERNAME_LEN]; Role role;`. `USERNAME_LEN` is 20, so we can just overwrite the `role` with the value of `ROLE_GOD`.
+We're conveniently given the source code. Reading through it, a `User` struct consists of `name[USERNAME_LEN]; Role role;`; `USERNAME_LEN` is 20. There are three roles - `ROLE_USER`, `ROLE_ADMIN`, and `ROLE_GOD = 0xBEEFACAFE`. When `users_register_user` is called, if  the `admin` is `ROLE_GOD`, then it will print out the flag. `user_create` creates a user by allocating memory on the heap.
+
+The `main` function takes an input of `username` that is 30 characters long. Then, it creates an admin user; when it checks that there is no such user in the database as given in the input, it will `free(admin)`, `user_create(username)`, and `users_register_user(users, admin, user)`. Alright, we can overwrite our user's role because the struct has 20 characters for the name and the rest for the role, whereas our input string is 30 bytes. Moreover, `admin` is freed and used; it's a use-after-free. After freeing admin, the database conveniently creates a user, which is likely to create that user where the admin was previously at. Because of the first vulnerability, we can control the role of the admin and the user given as arguments for `users_register_user`; also, if the admin has the role `ROLE_GOD`, then it will spit out the flag.
 
 ```
 $ echo -e 'AAAAAAAAAAAAAAAAAAAA\xfe\xca\xef\xbe' | nc 193.57.159.27 44340
