@@ -10,25 +10,25 @@ Challenge | Category | Points | Solves | Comments
 --------- | -------- | ------ | ------ | --------
 [Discord](#discord-misc-15-pts)	| Misc | 15 | 739
 [Sanity Check](#sanity-check-misc-15-pts) | Misc | 15 | 996
-[Chicken Caesar Salad](#chicken-caesar-salad-crypto-50-pts) | Crypto | 50 | 929
+[Chicken Caesar Salad](#chicken-caesar-salad-crypto-50-pts) | Crypto | 50 | 929 | caesar cipher
 [Hidden](#hidden-forensics-50-pts) | Forensics | 50 | 740
 [Roos World](Roos%20World) | Web | 50 | 853 | Exploration into JSFuck
-[Stackoverflow](#stackoverflow-pwn-50-pts) | Pwn | 50 | 413
-[Fake Canary](#fake-canary-pwn-100-pts) | Pwn | 100 | 207
-[Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160
-[Formatting](#formatting-misc-100-pts) | Misc | 100 | 302
+[Stackoverflow](#stackoverflow-pwn-50-pts) | Pwn | 50 | 413 | stack overflow
+[Fake Canary](#fake-canary-pwn-100-pts) | Pwn | 100 | 207 | stack canary
+[Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160 | AES-CBC bit flipping
+[Formatting](#formatting-misc-100-pts) | Misc | 100 | 302 | format string
 [Spelling Test](#spelling-test-misc-100-pts) | Misc | 100 | 303
-[Stings](#stings-reversing-100-pts) | Reversing | 100 | 291
-[Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339
-[Lines](#lines-crypto-150-pts) | Crypto | 150 | 128
+[Stings](#stings-reversing-100-pts) | Reversing | 100 | 291 
+[Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339 | OSINT
+[Lines](#lines-crypto-150-pts) | Crypto | 150 | 128 | modular arithmetic
 [Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
-[The First Fit](#the-first-fit-pwn-150-pts) | Pwn | 150 | 139
-[Jumprope](Jumprope) | Reversing | 200 | 47
+[The First Fit](#the-first-fit-pwn-150-pts) | Pwn | 150 | 139 | heap
+[Jumprope](Jumprope) | Reversing | 200 | 47 | ROP
 [No Thoughts, Head Empty](#no-thoughts-head-empty-reversing-200-pts) | Reversing | 200 | 101
-[linonophobia](Linonophobia) | Pwn | 200 | 70
-[Speedrun](Speedrun) | Pwn | 200 | 61
+[linonophobia](Linonophobia) | Pwn | 200 | 70 | ret2libc
+[Speedrun](Speedrun) | Pwn | 200 | 61 | automation and ret2libc
 [Abnormal](Abnormal) | Reversing | 250 | 28 | verilog
-[It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!) | Reversing | 250 | 34
+[It's Not Pwn, I Swear!](It's%20Not%20Pwn%2C%20I%20Swear!) | Reversing | 250 | 34 | not pwn
 
 ## Afterthoughts
 
@@ -606,5 +606,3 @@ Result is the flag.
 ```
 ictf{0n3_ch@r@ct3r_0f_d1f3r3nce}
 ```
-
-## Speedrun | Pwn | 200
