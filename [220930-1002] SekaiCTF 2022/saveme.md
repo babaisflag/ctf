@@ -309,6 +309,6 @@ SEKAI{Y0u_g0T_m3_n@w_93e127fc6e3ab73712408a5090fc9a12}
 
 ## Afterthoughts
 
-Based on the fact that there is an rwx region and that the flag says somethign about `GOT`, I assumed this was an unintended solution, and the intended solution was egg hunter and rop chains. Welp. Although I bashed my head against this challenge for a very long time, I liked this challenge - it got me to understand format strings very well, and also think about bunch of ways to solve this problem. I also first learned about the egg hunter shellcode.
+Based on the fact that there is an rwx region and that the flag says somethign about `GOT`, I assumed this was an unintended solution, and the intended solution was egg hunter and rop chains. Welp. Although I bashed my head against this challenge for a very long time, I liked this challenge - it got me to understand format strings very well, and also think about bunch of ways to solve this problem. I also first learned about the egg hunter shellcode. Thanks for the interesting challenge! (I also really liked the website design)
 
-I'm also curious if the payload being exactly 1 byte over when trying to do `putc -> __stack_chk_fail` route was intended or not. Also if there is anything that would reduce 1 byte from that payload, let me know. :D
+I'm curious whether the payload being exactly 1 byte over when trying to do `putc -> __stack_chk_fail` route was intended or not. Also if there is anything that would reduce 1 byte from that payload, let me know. :D
