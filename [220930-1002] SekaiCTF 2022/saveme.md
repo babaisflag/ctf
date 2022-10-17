@@ -61,6 +61,8 @@ $ seccomp-tools dump ./saveme
 
  Oh. Only `read` and `write` are allowed. This means we can't just pop a shell with shellcode. There's no `open`, so it also means that we cannot do open-read-write shellcode. The `read` and `write` seems like they're enabled because the program itself uses those, but other than that it's not too useful. If only we could find a flag somewhere within the program, then we will be able to `write` it to `stdout`.
 
+## Looking for the flag
+
 We do know that the flag is somewhere, it's in the heap. The pointer to the flag also may or may not be on the stack, so let's dig through gdb. Let's look at the stack when we pass it option 2 and pass the input `AAAAAAAABBBBBBBB`.
 
 (Note: to run it locally, there needs to be a `flag.txt` in the directory. The local flag I put is `flag{this_is_a_local_fake_flag}`)
@@ -131,6 +133,8 @@ pwndbg> x/256gx 0x21a9000
 ```
 
 We see the flag string at `0x21a92a0`, and surely enough the three nibbles `2a0` is constant every time the program is run. So now we know the address of `buf` (given by the program), the address where a pointer to the heap is stored (`buf-0xd0`), and the offset from that heap address to the flag (`*(buf-0xd0)-0xc00`). Now, we have arbitrary write, and we know where the flag is relatively. How hard could this be?
+
+## Format strings
 
 Well, we need the address of the heap pointer leaked. That's easy, we know the address of where that pointer is, so we can just put that in the buffer and the `printf` will print it out. Oh, but the program terminates after that. We want the program to repeat at least once, then. The first thing that comes to mind is overwriting the return address with `main` address. But there's a problem - `seccomp` only allows syscalls of `read` and `write`, so any other syscalls (even seccomp!) will kill the program. No problem, let's directly jump to where it calls the second `scanf`, i.e. `0x4014f9`. Wait, there's another problem: the saved `rbp` is 0 (at `0x7ffcb4163580`), so anything that dereferences `buf` will be an invalid pointer (`buf` is `rbp-0x60`). So to pull this off, we have to write 8 bytes for saved return address, and also saved rbp for `rbp`.
 
