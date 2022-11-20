@@ -321,9 +321,11 @@ def view_note(request: HttpRequest, pk: int) -> HttpResponse:
 ```
 <!-- {% endraw %} -->
 
-This searches for the body of the note with regex <!-- {% raw %} -->`({{.*??}})`<!-- {% endraw %} -->, which is something in the form `"{{" + (anything) + "}}"`; then it does a `os.path.join("emoji", re.sub("[{}]", "", include)`, attempting to get the emoji path after removing braces from the previously searched string. A [quick read on `os.path.join`](https://docs.python.org/3/library/os.path.html#os.path.join) tells us that if there's an absolute address in the middle, it will discard everything previously and use that absolute address as base. With the file name achieved from the os.path.join call, it opens that file and base64 encodes it, and wraps it in the `<img>` tag. Now it's simple, just do <!-- {% raw %} -->{{/flag.txt}}<!-- {% endraw %} --> and look at source to get the base64 of the flag, right?
+This searches for the body of the note with regex <!-- {% raw %} -->`({{.*??}})`<!-- {% endraw %} -->, which is something in the form `"{{" + (anything) + "}}"`; then it does a `os.path.join("emoji", re.sub("[{}]", "", include)`, attempting to get the emoji path after removing braces from the previously searched string. A [quick read on `os.path.join`](https://docs.python.org/3/library/os.path.html#os.path.join) tells us that if there's an absolute address in the middle, it will discard everything previously and use that absolute address as base. With the file name achieved from the os.path.join call, it opens that file and base64 encodes it, and wraps it in the `<img>` tag. Now it's simple, just do <!-- {% raw %} -->`{{/flag.txt}}`<!-- {% endraw %} --> and look at source to get the base64 of the flag, right?
 
 No. Well, sort of. In `notes/forms.py`, we actually see that the braces in the input are removed when it saves the note:
+
+<!-- {% raw %} -->
 ```
 def save(self, commit=True):
     instance = super(NoteCreateForm, self).save(commit=False)
@@ -336,6 +338,7 @@ def save(self, commit=True):
         for emoji in re.findall("(:[a-z_]*?:)", instance.body):
             instance.body = instance.body.replace(emoji, "{{" + emojis[emoji.replace(":", "")] + ".png}}")
 ```
+<!-- {% endraw %} -->
 
 But it does it in a bad way. Using the fact that it also removes "..", we just do this: `{..{/flag.txt}..}`
 
