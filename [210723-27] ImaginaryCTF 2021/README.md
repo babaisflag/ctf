@@ -578,11 +578,11 @@ When I was making Roolang, of course I took a look at the mother of all esolangs
 
 If we run the given code at the linked website, we get:
 
-<!-- {% raw % } -->
+<!-- {% raw %} -->
 ```
 iccttttffffffff{{{{{{{{{{{{{{{{00000000000000000000000000000000nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn...
 ```
-<!-- {% endraw % } -->
+<!-- {% endraw %} -->
 
 which goes on and on - looks like it's multiplying the number of characters repeated by 2. Eventually it runs out of memory before printing out everything.
 
