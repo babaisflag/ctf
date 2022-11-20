@@ -1,0 +1,177 @@
+4889D8C3(1):
+   0:   48 89 d8                mov    rax, rbx
+   3:   c3                      ret
+48D1E3C3(16):
+   0:   48 d1 e3                shl    rbx, 1
+   3:   c3                      ret
+480302C3(48):
+   0:   48 03 02                add    rax, QWORD PTR [rdx]
+   3:   c3                      ret
+50C3(1):
+   0:   50                      push   rax
+   1:   c3                      ret
+488900C3(32):
+   0:   48 89 00                mov    QWORD PTR [rax], rax
+   3:   c3                      ret
+53C3(1):
+   0:   53                      push   rbx
+   1:   c3                      ret
+51C3(1):
+   0:   51                      push   rcx
+   1:   c3                      ret
+48D1E2C3(16):
+   0:   48 d1 e2                shl    rdx, 1
+   3:   c3                      ret
+5152C3(2):
+   0:   51                      push   rcx
+   1:   52                      push   rdx
+   2:   c3                      ret
+58C3(1):
+   0:   58                      pop    rax
+   1:   c3                      ret
+4883C004C3(1):
+   0:   48 83 c0 04             add    rax, 0x4
+   4:   c3                      ret
+4801C8C3(5):
+   0:   48 01 c8                add    rax, rcx
+   3:   c3                      ret
+48D1E1C3(16):
+   0:   48 d1 e1                shl    rcx, 1
+   3:   c3                      ret
+4889CBC3(1):
+   0:   48 89 cb                mov    rbx, rcx
+   3:   c3                      ret
+48C7C03C0000000F05C3(16777215):
+   0:   48 c7 c0 3c 00 00 00    mov    rax, 0x3c
+   7:   0f 05                   syscall 
+   9:   c3                      ret
+48891BC3(32):
+   0:   48 89 1b                mov    QWORD PTR [rbx], rbx
+   3:   c3                      ret
+5AC3(1):
+   0:   5a                      pop    rdx
+   1:   c3                      ret
+48D1E0C3(16):
+   0:   48 d1 e0                shl    rax, 1
+   3:   c3                      ret
+FFD1(16):
+   0:   ff d1                   call   rcx
+4889D1C3(1):
+   0:   48 89 d1                mov    rcx, rdx
+   3:   c3                      ret
+FFE2(5):
+   0:   ff e2                   jmp    rdx
+FFD0(16):
+   0:   ff d0                   call   rax
+488B09C3(32):
+   0:   48 8b 09                mov    rcx, QWORD PTR [rcx]
+   3:   c3                      ret
+488912C3(32):
+   0:   48 89 12                mov    QWORD PTR [rdx], rdx
+   3:   c3                      ret
+FFD2(16):
+   0:   ff d2                   call   rdx
+4801D0C3(5):
+   0:   48 01 d0                add    rax, rdx
+   3:   c3                      ret
+48D1E9C3(1):
+   0:   48 d1 e9                shr    rcx, 1
+   3:   c3                      ret
+488B1BC3(32):
+   0:   48 8b 1b                mov    rbx, QWORD PTR [rbx]
+   3:   c3                      ret
+FF10(24):
+   0:   ff 10                   call   QWORD PTR [rax]
+5FC3(1):
+   0:   5f                      pop    rdi
+   1:   c3                      ret
+488B00C3(32):
+   0:   48 8b 00                mov    rax, QWORD PTR [rax]
+   3:   c3                      ret
+4889C4C3(5):
+   0:   48 89 c4                mov    rsp, rax
+   3:   c3                      ret
+FFE1(5):
+   0:   ff e1                   jmp    rcx
+FFE3(5):
+   0:   ff e3                   jmp    rbx
+4801D8C3(5):
+   0:   48 01 d8                add    rax, rbx
+   3:   c3                      ret
+FFE0(5):
+   0:   ff e0                   jmp    rax
+E900000000(1):
+   0:   e9 00 00 00 00          jmp    0x5
+52C3(1):
+   0:   52                      push   rdx
+   1:   c3                      ret
+488B12C3(32):
+   0:   48 8b 12                mov    rdx, QWORD PTR [rdx]
+   3:   c3                      ret
+56C3(1):
+   0:   56                      push   rsi
+   1:   c3                      ret
+54C3(128):
+   0:   54                      push   rsp
+   1:   c3                      ret
+4889FEC3(1):
+   0:   48 89 fe                mov    rsi, rdi
+   3:   c3                      ret
+4883C304C3(1):
+   0:   48 83 c3 04             add    rbx, 0x4
+   4:   c3                      ret
+4801C0C3(5):
+   0:   48 01 c0                add    rax, rax
+   3:   c3                      ret
+5CC3(5):
+   0:   5c                      pop    rsp
+   1:   c3                      ret
+48D1EAC3(1):
+   0:   48 d1 ea                shr    rdx, 1
+   3:   c3                      ret
+4894C3(128):
+   0:   48 94                   xchg   rsp, rax
+   2:   c3                      ret
+4889E0C3(128):
+   0:   48 89 e0                mov    rax, rsp
+   3:   c3                      ret
+48D1E8C3(1):
+   0:   48 d1 e8                shr    rax, 1
+   3:   c3                      ret
+4889F7C3(1):
+   0:   48 89 f7                mov    rdi, rsi
+   3:   c3                      ret
+5EC3(1):
+   0:   5e                      pop    rsi
+   1:   c3                      ret
+5351C3(2):
+   0:   53                      push   rbx
+   1:   51                      push   rcx
+   2:   c3                      ret
+59C3(1):
+   0:   59                      pop    rcx
+   1:   c3                      ret
+4883C204C3(1):
+   0:   48 83 c2 04             add    rdx, 0x4
+   4:   c3                      ret
+5BC3(1):
+   0:   5b                      pop    rbx
+   1:   c3                      ret
+4883C104C3(1):
+   0:   48 83 c1 04             add    rcx, 0x4
+   4:   c3                      ret
+FFD3(16):
+   0:   ff d3                   call   rbx
+48D1EBC3(1):
+   0:   48 d1 eb                shr    rbx, 1
+   3:   c3                      ret
+488909C3(32):
+   0:   48 89 09                mov    QWORD PTR [rcx], rcx
+   3:   c3                      ret
+5053C3(2):
+   0:   50                      push   rax
+   1:   53                      push   rbx
+   2:   c3                      ret
+57C3(1):
+   0:   57                      push   rdi
+   1:   c3                      ret
