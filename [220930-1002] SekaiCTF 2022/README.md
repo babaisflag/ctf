@@ -31,7 +31,7 @@ Partial RELRO and no PIE. Got it. Let's look through it through a decompiler. Af
 
 ![binja_main](saveme/binja_main.png)
 
-`main()` calls `read_flag()`, `init(&buf)`, `seccomp()`. Then, after giveing us a pointer to the buffer on the stack, it asks us to choose an option. Option 1 does nothing. Option 2 calls `scanf("%80s", &buf)` then does a `printf(&buf)`, puts a new line, then exits. Ok, we know the address of the buffer, and we clearly have a format string vulnerability. Let's see what other functions do:
+`main()` calls `read_flag()`, `init(&buf)`, `seccomp()`. Then, after giving us a pointer to the buffer on the stack, it asks us to choose an option. Option 1 does nothing. Option 2 calls `scanf("%80s", &buf)` then does a `printf(&buf)`, puts a new line, then exits. Ok, we know the address of the buffer, and we clearly have a format string vulnerability. Let's see what other functions do:
 
 ![binja_read_flag](saveme/binja_read_flag.png)
 
