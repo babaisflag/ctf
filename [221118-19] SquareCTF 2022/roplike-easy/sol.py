@@ -4,9 +4,9 @@
 from pwn import *
 
 context.arch = 'amd64'
-#context.log_level = 'DEBUG'
-REMOTE = True
-#REMOTE = False
+context.log_level = 'DEBUG'
+#REMOTE = True
+REMOTE = False
 
 # buy Gadget i
 def buy(i):
