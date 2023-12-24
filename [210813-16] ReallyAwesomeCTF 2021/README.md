@@ -62,15 +62,15 @@ Challenge | Location Link | Explanation
 
 ### Description
 
-Challenge instance ready at `193.57.159.27:35582`. Click here to request a new instance.  
+Challenge instance ready at `193.57.159.27:35582`. Click here to request a new instance.
 This challenge also has something on port 35582/udp
 
-This game i'm playing is fun! There's this box that seemingly does nothing though... It sends a "network request" whatever that is. Can you have a look?  
+This game i'm playing is fun! There's this box that seemingly does nothing though... It sends a "network request" whatever that is. Can you have a look?
 (When the game launches, enter the IP and port you get from above. This challenge uses the same files and instance as other RSFPWS challenges)
 
 ### Attachments
 
-[`windows_clinet.zip`](windows_clinet.zip)  
+[`windows_client.zip`](windows_client.zip)
 [`linux_client.zip`](linux_client.zip)
 
 ### Solution
@@ -131,8 +131,8 @@ Challenge instance ready at `193.57.159.27:42380`. Click here to request a new i
 
 Man, my friend broke his linux install pretty darn bad. He can only use like, 4 commands. Can you take a look and see if you can recover at least some of his data?
 
-Username: `ractf`  
-Password: `8POlNixzDSThy`  
+Username: `ractf`
+Password: `8POlNixzDSThy`
 Note: it may take a minute or more for your container to start depending on load
 
 ### Solution
@@ -359,7 +359,7 @@ I encrypted the flag with this program into `secret`. But then I accidentally lo
 
 ### Attachments
 
-[`secret`](secret)  
+[`secret`](secret)
 [`encrypter`](encrypter)
 
 ### Solution
@@ -436,7 +436,7 @@ Incorrect License key!
 Press any key to continue...
 ```
 
-Ok. While the binary doesn't have the strings `"Enter your name > "` or  `"Enter License Key > "`, it does have `"Press any key to continue"` and `"Debugger detected!"` (there's also a [youtube link](https://www.youtube.com/watch?v=ub82Xb1C8os)). Going to the function that has those strings, it does indeed look like the main function we should look at.  
+Ok. While the binary doesn't have the strings `"Enter your name > "` or  `"Enter License Key > "`, it does have `"Press any key to continue"` and `"Debugger detected!"` (there's also a [youtube link](https://www.youtube.com/watch?v=ub82Xb1C8os)). Going to the function that has those strings, it does indeed look like the main function we should look at.
 The first thing we notice about this function is that there's a debugger check with `IsDebuggerPresent`. The second thing we notice is that there's a section doing some operation on a `0x3000` byte data section.
 
 <p align="center">
@@ -599,7 +599,7 @@ int main()
 
     char expected[50];
     sprintf_s(expected, "RA-%d-%s", acc, acc2);
-    
+
     for (int i = 0; i < strlen(expected); i++) {
         if (expected[i] != key[i]) {
             std::cout << "Incorrect license key!\n";

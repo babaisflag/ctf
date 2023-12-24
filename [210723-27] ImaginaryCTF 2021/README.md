@@ -18,7 +18,7 @@ Challenge | Category | Points | Solves | Comments
 [Flip Flops](#flip-flops-crypto-100-pts) | Crypto | 100 | 160 | AES-CBC bit flipping
 [Formatting](#formatting-misc-100-pts) | Misc | 100 | 302 | format string
 [Spelling Test](#spelling-test-misc-100-pts) | Misc | 100 | 303
-[Stings](#stings-reversing-100-pts) | Reversing | 100 | 291 
+[Stings](#stings-reversing-100-pts) | Reversing | 100 | 291
 [Vacation](#vacation-forensics-100-pts) | Forensics | 100 | 339 | OSINT
 [Lines](#lines-crypto-150-pts) | Crypto | 150 | 128 | modular arithmetic
 [Normal](#normal-reversing-150-pts) | Reversing | 150 | 109 | verilog
@@ -86,7 +86,7 @@ I remember the good old days when Caesar ciphers were easy…
 
 ### Attachment
 
-[`chicken-caesar-salad.txt`](_Attachments/chicken-caesar-salad.txt)
+[`chicken-caesar-salad.txt`](Attachments/chicken-caesar-salad.txt)
 
 ### Solution
 
@@ -105,7 +105,7 @@ Oh no, someone hid my flag behind a giant red block! Please help me retrieve it!
 
 ### Attachment
 
-[`challenge.psd`](_Attachments/challenge.psd)
+[`challenge.psd`](Attachments/challenge.psd)
 
 ### Solution
 
@@ -126,7 +126,7 @@ Welcome to Stack Overflow! Get answers to all your programming questions right h
 
 ### Attachment
 
-[`stackoverflow`](_Attachments/stackoverflow)
+[`stackoverflow`](Attachments/stackoverflow)
 
 ### Solution
 
@@ -159,11 +159,11 @@ Here at Stack Smasher Inc, we protect all our stacks with industry grade canarie
 
 ### Attachment
 
-[`fake_canary`](_Attachments/fake_canary)
+[`fake_canary`](Attachments/fake_canary)
 
 ### Solution
 
-Checksec: 
+Checksec:
 ```
 baba@baba:~$ checksec fake_canary
 [*] '/home/baba/fake_canary'
@@ -208,7 +208,7 @@ Yesterday, Roo bought some new flip flops. Let's see how good at flopping you ar
 
 ### Attachment
 
-[`flop.py`](_Attachments/flop.py)
+[`flop.py`](Attachments/flop.py)
 
 ### Solution
 
@@ -218,7 +218,7 @@ The title and the description talks about flip flops. Might be something related
 1. Put the current block of ciphertext through decryption with the provided key;
 2. then xor the result with the previous block of ciphertext, to recover the plaintext.
 
-![Image of AES-CBC byte flip](_Images/AESCBCByteFlip.jpg)
+![Image of AES-CBC byte flip](Images/AESCBCByteFlip.jpg)
 
 So, we need 2 blocks: the "previous block" that will be used to flip a bit (of course, this block will not be recovered as the ciphertext changed), and the "next block" that contains a string that's 1 bit off from the string 'gimmeflag'. We can use the string `AAAAAAAAAAAAAAAAAAAAAAAgimmeflaf`. Since `f` is `0x66` and `g` is `0x67`, we can just flip the bottom-most bit of the first block of the ciphertext to recover `AAAAAAAAAAAAAAAAAAAAAAAgimmeflag`.
 
@@ -281,7 +281,7 @@ Wait, I thought format strings were only in C???
 
 ### Attachment
 
-[`stonks.py`](_Attachments/stonks.py)
+[`stonks.py`](Attachments/stonks.py)
 
 ### Solution
 
@@ -322,7 +322,7 @@ NOTE: the words are spelled in American English
 
 ### Attachment
 
-[`words.txt`](_Attachments/words.txt)
+[`words.txt`](Attachments/words.txt)
 
 ### Solution
 
@@ -377,7 +377,7 @@ Enter the beehive. Don't get stung.
 
 ### Attachment
 
-[`stings`](_Attachments/stings)
+[`stings`](Attachments/stings)
 
 ### Solution
 
@@ -400,11 +400,11 @@ Roo's cousin was on vacation, but he forgot to tell us where he went! But he pos
 
 ### Attachment
 
-[`image.jpg`](_Attachments/image.jpg)
+[`image.jpg`](Attachments/image.jpg)
 
 ### Solution
 
-![Vacation Image](_Attachments/image.jpg)
+![Vacation Image](Attachments/image.jpg)
 
 Zooming in, we see a few things:
 1. On the left, in the flag with 'National Treasure', there is a logo that has the year 1965 and 'City of South Lake Tahoe'.
@@ -412,7 +412,7 @@ Zooming in, we see a few things:
 
 Searching 'city of south lake tahoe sugar pine bakery' in google maps, we do indeed get a location with the rock shop next to it. Right-clicking on the road near it, we get the coordinates: 38.947, -119.961.
 
-![Google Maps Image](_Images/vacation.PNG)
+![Google Maps Image](Images/vacation.PNG)
 
 ### Flag
 ```
@@ -427,8 +427,8 @@ Try to crack my unbreakable™ encryption! I based it off of the Diffie-Helman k
 
 ### Attachments
 
-[`lines.py`](_Attachments/lines.py)  
-[`out.txt`](_Attachments/out.txt)
+[`lines.py`](Attachments/lines.py)
+[`out.txt`](Attachments/out.txt)
 
 ### Solution
 
@@ -464,9 +464,9 @@ Norse senor snorts spores, abhors non-nors, adores s'mores, and snores.
 
 ### Attachments
 
-[`normal.v`](_Attachments/normal.v)
+[`normal.v`](Attachments/normal.v)
 
-[`Makefile`](_Attachments/Makefile)
+[`Makefile`](Attachments/Makefile)
 
 ### Solution
 
@@ -502,8 +502,8 @@ Let's get started with a simple heap exploit!
 
 ### Attachments
 
-[`the_first_fit`](_Attachments/the_first_fit)  
-[`the_first_fit.c`](_Attachments/the_first_fit.c)
+[`the_first_fit`](Attachments/the_first_fit)
+[`the_first_fit.c`](Attachments/the_first_fit.c)
 
 ### Solution
 
@@ -572,7 +572,7 @@ When I was making Roolang, of course I took a look at the mother of all esolangs
 
 ### Attachment
 
-[`flag_min.bf`](_Attachments/flag_min.bf)
+[`flag_min.bf`](Attachments/flag_min.bf)
 
 ### Solution
 
